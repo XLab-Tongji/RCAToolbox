@@ -2,35 +2,189 @@ Root Cause Detection in a Service-Oriented Architecture
 
 论文阅读整理与归纳
 
-这篇论文想要解决的问题是：在面向服务的体系结构中，如何利用前端出现的异常进行搜索，找到异常出现的根因。
+### 问题引入：
 
-为了更进一步定义问题，文章首先们总结了可用于诊断的数据。 单个传 感器发出具有唯一通用标识符的度量数据(例如延迟、错误计 数和吞吐量。 此标识符是在接收用户请求的第一前端服务中生成的，然后传播到下游的callee服务。 这些度量数据被收集并存储在一个合并的位置，以便通过加入通用标识符来创建完整的调用图。调用图是一个有向图，vi->vj代表i调用j。需要注意的是，传感器之间类似的异常行为可能与它们在调用图中的关系无关。
+大型网站主要是作为面向服务的体系结构来构建的。 在这里，服务是专门针对某一任务的，在多台机器上运行，并相互通信以服务于用户的请求。 在此通信期间，一个服务度量的异常变化可能传播到其他服务，从而导致请求的总体退化。 由于任何这种退化都对收入产生影响，维护正确的功能是最重要的：必须尽快找到任何异常的根本原因。 这是具有挑战性的，因为对于给定的服务有许多度量或传感器，而现代网站通常由数百个服务组成，在多个数据中心的数千台机 器上运行。
 
-解决方案：
+### 解决方案：
+
+本文介绍了Monitor Rank算法，它可以减少在这种面向服务的体系结构中寻找异常根源所需的时间、领域知识和人力。 在异常情况下，Monitor Rank提供了一个可能的根本原因的排序列表，供监察组调查。 monitorRank算法使用每个传感器的历史和当前时间序列度量，以及传感器之间生成的调用图作为输入，输出是一个可能的异常的根源有序序列（评分依据是root cause score）。
+
+（调用图需要包含外部因素，而不能仅使用基本调用图）
+
+该算法是一个非机器学习的算法（不需要训练）
 
 ![截屏2021-10-20 下午9.39.04.png](https://img-youpai.weixiaoi.com/tu/2021/1020/1634744565211020.png)
 
-首先，度量收集系统接收和聚合来自所有传感器的度量， 
+首先度量收集系统接收和聚合来自所有传感器的度量， （提取kafka系统中的数据，缓冲并聚合到更粗的时间粒度，然后存储到一个时间分区数据库中。）
 
-最后将它们存储到一个时间分区数据库中。
+来自Kafka的度量数据也被批处理系统Hadoop消耗，并存储Hadoop 分布式文件系统(HDFS)上)。 定期调度的Hadoop 作业以度量数据的快照作为输入，并输出调用图和外部因 素。
 
-批处理模式引擎生成调用图并提取外部因素。 此输出存储回另一个数据库。 （外部因素是通过伪异常聚类算法提取的）
+#### 调用图形生成：
 
-实时引擎然后从两个数据库加载必要的数据，并提供根原因传感器的排序列表。 使用这些数据，实时引擎执行随机游走算法。
+存储在Hadoop上的每个度量数据点都包含由前端传感器引入的唯一通用标识符，然后沿着调用链传递。 度量数据点还包含调用者和callee传感器名称。 Hadoop作业加入通用id上的快照度量数据，然后结合单个传感器名称生成调用图。（基本调用图无法展现外部因素影响）
 
-伪异常聚类算法：基于历史度量相关性将传感器分组在一起，捕获外部因素导致的相关。
+#### 提取外部因素：
 
-检测到的异常不一定只捕获真实报告的异常，我们将它们称为伪异常
+首先使用了文献中的一个检测算法检测出一个异常的前端传感器相应的异常度量和时间区间。对该算法输出的每一个异常（这里称之为伪异常），需要计算相应的度量数据与所有其他传感器的相关性。
 
-伪异常聚类算法：
+如何测定相关性：pattern similarity
 
-如果传感器受到相同的外部因素的影响，它们在种子传感器上的模式相似度得分会比较接近和高;否则，不属于给定集群的传感器表现出较低的模式相似性得分。这些假设简化了现实世界，但是当我们重新查看图3(b)时是有意义的。我们忽略中心的聚类，因为它表示每个传感器和前端一个传感器之间的相似度很低(即混合了随机效应)。剩下的两个区域(矩形和椭球)符合我们的假设，因为与给定伪异常无关的传感器代表了小的模式相似性分数。在这些区域的相关传感器之间也显示出很高的相似分数。在实践中，其他传感器组合也观察到这种现象，从而验证了我们的假设。算法的细节。现在我们详细描述伪异常聚类算法。聚类算法的输入是(a)一个种子前端传感器vfe(即v1)， (b)来自历史数据(t1，···，tk)的各种伪异常矩，(c)传感器模式相似度评分(S(t1)，···，S(tk))。历史数据被限制到最近几周，因此限制了要处理的数据量。过滤掉所有服务模式相似度得分较低的伪异常矩。这种方法可以去除检测算法产生的假阳性矩。然后，我们捕获关于每个清理伪异常矩的高模式相似分数的传感器。利用(1)中的假设，我们根据传感器的模式相似度评分将传感器(除前端传感器外)分为两组。其中一组传感器代表低模式相似度(接近于零)，另一组传感器代表高模式相似度(接近于第(1)中的μ (t))。对于给定的伪异常矩，我们将后一组称为簇。最后，我们使这个聚类稀疏，以保持在一定的外部因素下仅关键传感器。
+如果我们研究伪异常时刻传感器之间的度量模式相似性，并找到一组通常表现出高模式相似性的传感器，那么我们可以假设一些外部因素的影响。
 
-实时引擎：一个简单的用 户界面允许他们输入一个前端传感器，一个度量，以及与观 察到的异常对应的时间段。 结果是一个有序的根原因传感器 列表。 用户界面的交互性质允许团队不断地改变他们的输 入，同时在接近实时的情况下返回诊断指南。
+### 实时引擎：
 
-如果两个服务在某一度量中具有相似的异常模式，我们可以想象这些 模式可能是由相同的根本原因引起的。 特别是，当相同的异常引起变化时，两个传感器的度量数据可以看起来相似，而不管数据在正常情况下是否看起来相似。
+当度量收集管道和批处理模式引擎在后台间断性运行时，实时引擎负责为来自监控团队的查询提供服务。 一个简单的用户界面允许他们输入一个前端传感器，一个度量，以及与观察到的异常对应的时间段。 结果是一个有序的根原因传感器列表。 用户界面的交互性质允许团队不断地改变他们的输入，同时在接近实时的情况下返回诊断指南。
 
-实时引擎结合度量模式相似性评分和调用图两个因素来进行根因检测。
+虽然度量模式相似性评分对于检测传感器与给定异常的相关性是有用的，但相关性不意味着因果关系。这些结果对被视为候选，需要进一步添加调用图来更好地对候选集进行排序。
 
-基本思想是根据相似分对调用图进行随机游走。 更具体地说，通过在调用图中的邻居中随机拾取下一个传感器，依次选择传感器。 每个邻居的拾取概率与其与给定异常的相关性成正比，该异常由模式相似性评分捕获。
+#### 随机游走算法：
+
+输入：一个调用图，以及一个异常前端传感器节点vfe和每个传感器vi∈V的模式相似度评分Si。
+
+为方便起见，所有传感器的相似度评分记为向量S = [S1，···，S|V |]∈(0,1]|V |。为使随机walker按模式相似度评分Si的比例访问每个节点vi，将每条边eij的强度赋值为Sj。
+
+#### 添加自边：
+
+具体来说，对于每个节点v，对应的自边e的强度等于相似度评分S减去子节点的最大相似度评分，通过这种方式，随机步行者被鼓励移动到相似度高的节点，但避免落入与给定异常无关的节点。作为一个例外，我们没有向前端节点添加自边，即e11 = 0，因为随机漫步者不需要停留在v1。
+
+#### 添加回边：
+
+当随机步行者落入与给定异常不相关的节点时，就没有办法逃脱，直到下一次瞬间移动。由于调用图中某条边的方向趋向于从前端到后端，随机步行者很可能自然地被困在调用图的分支中。在图4中，假设在前端传感器v1上观察到一个异常，节点v2是唯一与给定异常相关的传感器。对于给定的异常，节点v2的模式相似度评分甚至高于其他节点v3 ~ v7。如果节点v3 ~ v7的模式相似度得分不可忽略，则随机walker就会落入图4(节点v3 ~ v7)中后代的右侧。在这种情况下，无论节点与给定的异常有多么无关，随机步行者将停留在节点v3 ~ v7上，直到下一次随机瞬移发生。
+
+·每个后向边的强度设置都小于到达同一节点的真边的强度设置。（pSi）
+
+·如果ρ的价值高,随机沃克更受限制的路径调用图,也就是说,从上游到下游。另一方面，当ρ值较低时，随机步行者以更大的灵活性探索节点。
+
+·如果调用图表示传感器之间的一个真正的依赖图，我们将设置ρ较高
+
+代码：
+
+```
+    if verbose:
+        # 打印方法名
+        print("{:#^80}".format("Monitor Rank"))
+        if verbose>=3:
+            # 打印方法变量
+            print("{:-^80}".format(data_source))
+            print("{:^10}pc aggregate  :{}".format("", pc_aggregate))
+            print("{:^10}pc alpha      :{}".format("", pc_alpha))
+            print("{:^10}rho           :{}".format("", rho))
+    # 加载数据
+    # Use raw_data, data_head if it is provided in kws
+    if 'data' not in kws:
+        data, data_head = load(
+            os.path.join("data", data_source, "rawdata.xlsx"),
+            normalize=True,
+            zero_fill_method='prevlatter',
+            aggre_delta=pc_aggregate,
+            verbose=verbose,
+        )
+        # Transpose data to shape [N, T]
+        data = data.T
+    else:
+        data_head = kws['data_head']
+        # raw_data is of shape [T, N]. Here we first transpose it to [N, T] and then aggregate.
+        raw_data = kws['data']
+        data = np.array([aggregate(row, pc_aggregate) for row in raw_data.T])
+
+    rela = calc_pearson(data, method="numpy", zero_diag=False)
+    
+    # region Build call graph from file or PC algorithm or parameters in kws
+    
+    # The file name for saving dependency graph
+    window_start=0
+    if 'window_start' in kws:
+        window_start=kws['window_start']
+    dep_graph_filepath = os.path.join(
+        "monitor_rank",
+        "results",
+        data_source,
+        "dep_graph_agg{}_alpha{}_winstart{}_len{}.xlsx".format(pc_aggregate, pc_alpha, window_start, data.shape[1]),
+    )
+    
+    # When PC dep_graph isn't given, use PC algorithm
+    if 'dep_graph' not in kws:
+        if data_source == "pymicro":
+            # Real call topology matrix
+            dep_graph = readExl(os.path.join("data", data_source, "true_callgraph.xlsx"))
+        elif data_source == "real_micro_service":
+            # If it is not in runtime_debug mode, save and load previous constructed graph if possible
+            if os.path.exists(dep_graph_filepath) and not runtime_debug:
+                # If previous dependency graph exists, load it.
+                if verbose and verbose >= 2:
+                    # verbose level >= 2: print dependency graph loading info
+                    print(
+                        "{:^10}Loading existing link matrix file: {}".format(
+                            "", dep_graph_filepath
+                        )
+                    )
+                dep_graph = readExl(dep_graph_filepath)
+            else:
+                # If previous dependency graph doesn't exist, genereate it using PC algorithm.
+                if verbose and verbose >= 2:
+                    # verbose level >= 2: print dependency graph construction info
+                    print("{:^10}Generating new link matrix".format(""))
+                dep_graph = build_graph_pc(data, alpha=pc_alpha)
+    # When PC dep_graph is given, use dep_graph given
+    else:
+        dep_graph = kws['dep_graph']
+    # If not in runtime debugging mode, cache dependency graph
+    if not runtime_debug:
+        os.makedirs(os.path.dirname(dep_graph_filepath), exist_ok=True)
+        saveToExcel(dep_graph_filepath, dep_graph)
+    callgraph = dep_graph
+    # endregion
+    
+    topk_list = range(1, 6)
+    prkS = [0] * len(topk_list)
+    acc = 0
+    for i in range(testrun_round):
+        if verbose and verbose >= 3:
+            # verbose level >= 3: print random walk starting info
+            print("{:^15}Randwalk round:{}".format("", i))
+            print(
+                "{:^15}Starting randwalk at({}): {}".format(
+                    "", frontend, data_head[frontend - 1]
+                )
+            )
+        rank, P = relaToRank(rela, callgraph, 10, frontend, rho=rho, print_trace=False)
+        acc += my_acc(rank, true_root_cause, n=len(data))
+        for j, k in enumerate(topk_list):
+            prkS[j] += prCal(rank, k, true_root_cause)
+
+        if verbose and verbose > 1:
+            # verbose level >= 2: print random walk rank results
+            print("{:^15}".format(""), end="")
+            for j in range(len(rank)):
+                print(rank[j], end=", ")
+            print("")
+
+    for j, k in enumerate(topk_list):
+        prkS[j] = float(prkS[j]) / testrun_round
+    acc /= testrun_round
+    # Display PR@k and Acc if disable_print is not set
+    if 'disable_print' not in kws or kws['disable_print'] is False:
+        print_prk_acc(prkS, acc)
+    if save_data_fig:
+        saveToExcel(
+            os.path.join(
+                "monitor_rank",
+                "results",
+                data_source,
+                "transition_prob_ela{}.xlsx".format(pc_aggregate),
+            ),
+            P.tolist(),
+        )
+        draw_weighted_graph(
+            P.tolist(),
+            os.path.join(
+                "monitor_rank",
+                "results",
+                data_source,
+                "transition_graph_ela{}.png".format(pc_aggregate),
+            ),
+        )
+    return prkS, acc
+```
 
