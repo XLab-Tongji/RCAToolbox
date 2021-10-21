@@ -55,7 +55,6 @@
 基于服务之间的内部相关性通过因果关系构造,假设为有向无环图DAG
 
 #### 影响图
-> TODO 还没看完
 
 G(V,E),可能包括有向边和无向边
 - 存在边:有条件依赖
@@ -88,6 +87,12 @@ Output: G
 	level++
 
 // 确定方向
+对于每个vi-vk-vj的V型结构
+	如果vk不在S(vi,vj)和S(vj,vi)中,则定向为vi->vk<-vj
+根据Rule1-3确定vi->vj方向
+	若存在vi->vj,vi、vk不相邻,则定向vj-vk为vj->vk
+	若存在vi->vk->vj,则定向为vi->vj
+	若存在vi-vk->vj和vi-vl->vj,vk、vl不相邻,则定向vi-vj为vi->vj
 ```
 
 ### 相关性计算
@@ -102,5 +107,35 @@ Pearson相关性函数$C_{i,j}$
 - 启发式的:不仅要考虑当前服务的相关性,还要考虑遍历过的服务之间的关系
 > 例如,在随机漫步期间,当上一个节点和当前节点的相关性都很高时,向前移动而不是向后进行故障排除,更可能找到根本原因.
 
-#### 二阶随机漫步
-> TODO 有点杂,没看完
+#### 二阶随机游走
+> I:In-neighbor O:Out-neighbor
+##### 一阶随机游走
+$v_i->v_j, p_{i,j}$,t时刻遍历到服务$X_t$此时条件概率$p_{i,j}=P[X_t=v_j|X_{t-1}=v_i]$
+访问vj的概率与相关评分$c_{j,fe}$成正比,故转移概率矩阵P:
+$$[P]_{i,j}=p_{i,j}=\frac{c_{j,fe}}{\Sigma_{l\in O_i}c_{l,fe}}$$
+##### 向前转移
+上一个访问的节点为vk,$$p_{k,i,j}=P[X_{t+1}=v_j|X_{t-1}=v_k,X_t=v_i]=P[X_{t+1}=v_j,X_t=v_i|X_{t-1}=v_k,X_t=v_i]$$
+点到点的转移转化成边到边的转移$(v_k,v_i)->(v_i,v_j)$;
+定义一个自回归模型$$p_{k,i,j}^{'} = (1-\beta)p_{k,i} + \beta p_{i,j}$$
+边转移概率矩阵$M_{m\times m}$
+$$[M]=p_{k,i,j}=\frac{p_{k,i,j}^{'}}{\Sigma_{l\in O_i}p_{k,i,j}^{'}}=\frac{(1-\beta)p_{k,i} + \beta p_{i,j}}{\Sigma_{l\in O_i}[(1-\beta)p_{k,i} + \beta p_{i,j,l}]}$$
+##### 向后转移
+
+$$p_{k,i,j}^b=\rho \frac{p_{k,i,j}^{'}}{\Sigma_{l\in I_i}p_{k,i,j}^{'}}=\rho \frac{(1-\beta)p_{k,i} + \beta p_{i,j}}{\Sigma_{l\in I_i}[(1-\beta)p_{k,i} + \beta p_{i,j,l}]}$$
+##### 自转移
+若无评分较高的邻接服务
+$$p_{k,i,i}^s=max(0,p_{k,i,i}-\max\limits_{l\in I_i \cup O_i}p_{k,i,l})$$
+```
+Algorithm 2 Random Walk
+Input: G,M,vfe
+Output: R[n]
+R[n], vs=vfe, vp=vfe
+while(n)
+	vp=vs
+	计算前转概率
+	计算后转概率
+	计算自转概率,行标准化[M]ps
+	从vs、Os、Is中随机选择一个vs
+	R[s]++
+给R[n]排序
+```
