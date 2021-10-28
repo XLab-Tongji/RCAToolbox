@@ -80,7 +80,7 @@ Root Cause Detection in a Service-Oriented Architecture
             aggre_delta=pc_aggregate,
             verbose=verbose,
         )
-        # Transpose data to shape [N, T]
+        # 将数据转换成形状[N, T]
         data = data.T
     else:
         data_head = kws['data_head']
