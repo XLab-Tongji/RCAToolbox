@@ -128,3 +128,62 @@ TCORW的三个步骤
 
 这里没细看，都是做了一些对比实验
 
+
+
+
+
+
+
+# 代码
+
+## 函数
+
+##### run_SPOT(data, q=1e-3, d=300, n_init=None)
+
+- q:风险参数
+- d:深度参数
+- n_int：中间截断位置
+
+##### get_eta(SPOT_res, n_init)
+
+- mask = data[n_init:, svc_id] > np.array(SPOT_res\[svc_id]['thresholds'])
+
+遮罩
+
+- ratio = np.abs(data[n_init:, svc_id] - np.array(SPOT_res\[svc_id]['thresholds'])) / np.array(SPOT_res\[svc_id]['thresholds'])
+
+比率
+
+##### run_pcmci(pc_alpha = 0.1, verbosity=0)
+
+- 跑pc算法
+
+##### get_links(pcmci, results, alpha_level = 0.01)
+
+- 根据pc算法结果建立联系图
+
+##### get_Q_matrix(g, rho=0.2)
+
+##### get_Q_matrix_part_corr(g, rho=0.2)
+
+- 建立父亲节点图（不漏下没有任何关联的节点）
+- 请注意偏相关，这两个变量不可能相同。//这里不懂 in[8]
+- 计算点与点之间的相关性，形成一个矩阵
+
+##### randomwalk(P,epochs,start_node,teleportation_prob,walk_step=50,print_trace=False)
+
+- 1000个点都跑50次，然后得出得分，然后排名
+
+##### get_gamma(score_list, eta, lambda_param=0.8)
+
+- 调用了几个找不到的函数
+
+##### evaluate(gamma)
+
+1. 导入数据集，输出
+2. 跑SPOT
+3. 跑pcts算法
+4. 跑随机游走算法
+5. 获得gamma//这里不懂
+6. evaluate
+7. 测试各种数据集
