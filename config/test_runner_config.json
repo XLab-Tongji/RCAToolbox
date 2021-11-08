@@ -1,0 +1,12 @@
+{
+    "ad_model": {
+        "forward_interval": 60,
+        "backward_interval": 60
+    },
+    "rca_model": {
+
+    },
+    "localization": {
+
+    }
+}
