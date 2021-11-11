@@ -1,0 +1,17 @@
+{
+    "ad_model": {
+        "forward_interval": 60,
+        "backward_interval": 60
+    },
+    "rca_model": {
+        "alpha": 0.1,
+        "beta": 0.1,
+        "rho": 0.2,
+        "front_end": 1
+    },
+    "localization": {
+        "epochs": 10,
+        "steps": 100,
+        "front_end": 1
+    }
+}

@@ -14,3 +14,16 @@ def linearly_interpolate_nans(data):
     mask = np.isnan(data)
     data[mask] = np.interp(np.flatnonzero(mask), np.flatnonzero(~mask), data[~mask])
     return data
+
+
+def normalize(matrix, axis):
+    """
+    返回矩阵的归一化表示
+
+    :param matrix: 原始矩阵
+    :param axis: np.sum()参数，标识第axis个维度上的变化
+    :return:
+    """
+    np.seterr(divide='ignore', invalid='ignore')
+    matrix /= np.sum(matrix, axis=axis, keepdims=True, dtype=float)
+    return np.nan_to_num(matrix)
