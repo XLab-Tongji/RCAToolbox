@@ -6,7 +6,7 @@ from data_loader.standard_data_loader import StandardDataLoader
 from pre_processor.demo_pre_processor import DemoPreProcessor
 from ad_model.metric_test_ad_model import MetricTestADModel
 from utils.ad_utils import ADUtils
-from rca_model.cloud_ranger_model import CloudRangerModel
+from rca_model.cloud_ranger_rca_model import CloudRangerModel
 from localization.cloud_ranger_localization import CloudRangerLocalization
 
 
@@ -49,7 +49,7 @@ class CloudRangerRunner(BaseRunner):
                                                          data=self.data_loader.valid_data,
                                                          config=self.config_dict['localization'])
 
-        print(result_dict)
+        print('Results on validation set:', result_dict)
 
     def test(self):
         # 测试集异常检测与预处理
@@ -59,7 +59,7 @@ class CloudRangerRunner(BaseRunner):
         result_dict = cloud_ranger_localization.localize(rca_model=self.rca_model,
                                                          data=self.data_loader.test_data,
                                                          config=self.config_dict['localization'])
-        return result_dict
+        print('Results on test set:', result_dict)
 
     def data_preparation(self, raw_data, ad_model):
         """

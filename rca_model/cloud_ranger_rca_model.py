@@ -19,14 +19,16 @@ class CloudRangerModel(BaseRCAModel):
         """
 
         :param data: DataLoader读出的所有数据
-        :return: metric数据二维矩阵
+        :return: 二元元组，包括metric名称列表及数据二维矩阵
         """
         metric_data = data['metric']
+        header = [metric_data[i].name for i in range(len(metric_data))]
         metric_sample_list = [metric_data[i].sample['value'] for i in range(len(metric_data))]
         metric_sample_matrix = np.array(metric_sample_list)
         idx = np.argwhere(np.all(metric_sample_matrix[..., :] == 0, axis=1))
         metric_sample_matrix = np.delete(metric_sample_matrix, idx, axis=0)
-        return metric_sample_matrix
+        header = np.delete(header, idx, axis=0)
+        return header, metric_sample_matrix
 
     @staticmethod
     def build_impact_graph(data, alpha):
@@ -139,11 +141,12 @@ class CloudRangerModel(BaseRCAModel):
         model = dict()
 
         for experiment_id, data in train_data.items():
-            metric_sample_matrix = self.get_metric_data(data)
+            header, metric_sample_matrix = self.get_metric_data(data)
             impact_graph = self.build_impact_graph(metric_sample_matrix, config['alpha'])
             correlation_matrix = self.build_correlation_matrix(metric_sample_matrix)
             prob_matrix = self.build_prob_matrix(impact_graph, correlation_matrix, config['front_end'],
                                                  config['beta'], config['rho'])
-            model[experiment_id] = {'G': impact_graph, 'M': prob_matrix}
+            model[experiment_id] = {'G': impact_graph, 'M': prob_matrix, 'header': header}
+            break
 
         return model

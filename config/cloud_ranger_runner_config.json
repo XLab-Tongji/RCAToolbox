@@ -7,11 +7,11 @@
         "alpha": 0.1,
         "beta": 0.1,
         "rho": 0.2,
-        "front_end": 1
+        "front_end": 5
     },
     "localization": {
         "epochs": 10,
         "steps": 100,
-        "front_end": 1
+        "front_end": 5
     }
 }

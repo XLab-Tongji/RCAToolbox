@@ -8,10 +8,11 @@ class CloudRangerLocalization(BaseLocalization):
     """
 
     @staticmethod
-    def second_order_random_walk(edge_trans_prob, epochs, front_end, steps):
+    def second_order_random_walk(header, edge_trans_prob, epochs, front_end, steps):
         """
         二阶随机游走算法
 
+        :param header: 数据头，即服务名
         :param edge_trans_prob: 边转移概率矩阵
         :param epochs: 轮数
         :param front_end: 前端节点
@@ -30,9 +31,14 @@ class CloudRangerLocalization(BaseLocalization):
                 score[next_node] += 1
                 previous = current
                 current = next_node
-        label = [_ for _ in range(n)]
-        score_list = list(zip(label, score))
+        score_list = list(zip(header, score))
+
+        # 排序 并排除score为0的项
         score_list.sort(key=lambda x: x[1], reverse=True)
+        for index, pair in enumerate(score_list):
+            if pair[1] == 0:
+                score_list = score_list[0:index]
+                break
         return score_list
 
     def localize(self, rca_model, data, config):
@@ -48,7 +54,7 @@ class CloudRangerLocalization(BaseLocalization):
 
         for experiment_id, data in data.items():
             model = rca_model[experiment_id]
-            result_dict[experiment_id] = self.second_order_random_walk(model['M'], config['epochs'],
+            result_dict[experiment_id] = self.second_order_random_walk(model['header'], model['M'], config['epochs'],
                                                                        config['front_end'], config['steps'])
-
+            break
         return result_dict
