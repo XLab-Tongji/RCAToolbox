@@ -1,23 +1,26 @@
 import os
 import json
+
+
+import numpy as np
+
 from base.base_runner import BaseRunner
 from data_reader.standard_data_reader import StandardDataReader
 from data_loader.standard_data_loader import StandardDataLoader
 from pre_processor.demo_pre_processor import DemoPreProcessor
 from ad_model.metric_test_ad_model import MetricTestADModel
+from rca_model.monitor_rank_rca_model import MonitorRankRCAModel
 from utils.ad_utils import ADUtils
-from rca_model.cloud_ranger_rca_model import CloudRangerModel
-from localization.cloud_ranger_localization import CloudRangerLocalization
+from localization.monitor_rank_localization import MonitorRankLocalization
 
 
-class CloudRangerRunner(BaseRunner):
+class MonitorRankRunner(BaseRunner):
     """
-    CloudRanger框架runner(整合整个根因分析过程).
+    示例runner(整合整个根因分析过程).
 
     Attributes:
         config_dict: 异常检测、根因分析、定位的参数配置.
     """
-
     def __init__(self):
         super().__init__()
         self.config_dict = dict()
@@ -29,7 +32,6 @@ class CloudRangerRunner(BaseRunner):
         demo_pre_processor = DemoPreProcessor()
         self.data_loader = StandardDataLoader(standard_data_reader, demo_pre_processor)
         self.data_loader.load_data(rca_model_name='rca_model_name', dataset='demo')
-
         # 选取异常检测模型
         self.ad_model = MetricTestADModel()
 
@@ -37,28 +39,47 @@ class CloudRangerRunner(BaseRunner):
         self.data_loader.train_data = self.data_preparation(self.data_loader.train_data, self.ad_model)
 
         # RCA模型搭建（有监督的根据训练数据搭建，无监督的训练集等于测试集，因此搭建的就是测试集的模型）
-        cloud_ranger_rca_model = CloudRangerModel()
-        self.rca_model = cloud_ranger_rca_model.build(self.data_loader.train_data, self.config_dict['rca_model'])
-
+        monitor_rank_rca_model = MonitorRankRCAModel()
+        self.rca_model = monitor_rank_rca_model.build(self.data_loader.train_data, self.config_dict['rca_model'])
         # 验证集异常检测与预处理
         self.data_loader.valid_data = self.data_preparation(self.data_loader.valid_data, self.ad_model)
         # 在验证集上进行根因定位测试
-        cloud_ranger_localization = CloudRangerLocalization()
-        result_dict = cloud_ranger_localization.localize(rca_model=self.rca_model,
+        monitor_rank_localization = MonitorRankLocalization()
+        result_dict = monitor_rank_localization.localize(rca_model=self.rca_model,
                                                          data=self.data_loader.valid_data,
                                                          config=self.config_dict['localization'])
+        # for item in result_dict.items():
+        #     print('result',item)
 
-        print('Results on validation set:', result_dict)
+        for experiment_id in result_dict.keys():
+            result_list = []
+            for service in result_dict[experiment_id]:
+                index = service[0]
+                name = self.rca_model[experiment_id]['header'][index]
+                result_list.append((name, service[1]))
+            result_name_dict = dict()
+            result_name_dict[experiment_id] = result_list
+            print("run_result", result_name_dict)
 
     def test(self):
         # 测试集异常检测与预处理
         self.data_loader.test_data = self.data_preparation(self.data_loader.test_data, self.ad_model)
         # 在测试集上进行根因定位
-        cloud_ranger_localization = CloudRangerLocalization()
-        result_dict = cloud_ranger_localization.localize(rca_model=self.rca_model,
-                                                         data=self.data_loader.test_data,
+        monitor_rank_localization = MonitorRankLocalization()
+        result_dict = monitor_rank_localization.localize(rca_model=self.rca_model, data=self.data_loader.test_data,
                                                          config=self.config_dict['localization'])
-        print('Results on test set:', result_dict)
+        for experiment_id in result_dict.keys():
+            result_list = []
+            for service in result_dict[experiment_id]:
+                index = service[0]
+                name = self.rca_model[experiment_id]['header'][index]
+                result_list.append((name, service[1]))
+            result_name_dict = dict()
+            result_name_dict[experiment_id] = result_list
+            print("test_result", result_name_dict)
+        # for item in result_dict.items():
+        #     print('result', item)
+        return result_dict
 
     def data_preparation(self, raw_data, ad_model):
         """
@@ -89,7 +110,7 @@ class CloudRangerRunner(BaseRunner):
         """
         加载配置文件
         """
-        config_file_name = 'cloud_ranger_runner_config.json'
+        config_file_name = 'monitor_rank_runner_config.json'
         config_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
         config_path = os.path.join(os.path.join(config_path, 'config'), config_file_name)
         with open(config_path) as f:
@@ -101,7 +122,7 @@ class CloudRangerRunner(BaseRunner):
 
 
 if __name__ == '__main__':
-    cloud_ranger_runner = CloudRangerRunner()
-    cloud_ranger_runner.run()
-    final_result = cloud_ranger_runner.test()
-    ...
+    np.seterr(divide='ignore', invalid='ignore')
+    test_runner = MonitorRankRunner()
+    test_runner.run()
+    test_runner.test()
