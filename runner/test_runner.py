@@ -1,5 +1,8 @@
 import os
 import json
+import sys
+
+sys.path.append('../')
 from base.base_runner import BaseRunner
 from data_reader.standard_data_reader import StandardDataReader
 from data_loader.standard_data_loader import StandardDataLoader

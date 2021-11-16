@@ -1,3 +1,4 @@
+import numpy as np
 class ADUtils:
     """
     通用的一些异常检测的工具函数
@@ -52,3 +53,23 @@ class ADUtils:
             result_list.append(metric)
 
         return result_list
+
+
+    def get_martix(data):
+        """
+        将字典里的数据展开为一个矩阵
+        :param data: 读取到的data，是个字典
+        :return: 一个展开的矩阵
+        """
+        x=len(data['metric'])
+        y=len(data['metric'][0].sample['value'])
+        matrix=np.zeros((y,x))
+        i=0
+        j=0
+        for item in data['metric']:
+            for value in item.sample['value']:
+                matrix[j][i]=value
+                j+=1
+            i+=1
+            j=0
+        return matrix
