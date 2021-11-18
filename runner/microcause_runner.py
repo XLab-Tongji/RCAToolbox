@@ -1,8 +1,6 @@
 import os
 import json
 import sys
-
-sys.path.append('../')
 from base.base_runner import BaseRunner
 from data_reader.standard_data_reader import StandardDataReader
 from data_loader.standard_data_loader import StandardDataLoader
@@ -32,7 +30,7 @@ class MicroCauseRunner(BaseRunner):
     def update_data(train_data):
         """
         将一行所有元素都相同或者有很长一段时间不动的数据的一整行都去掉，因为这一行的数据都没意义
-        :param train_data: 传入的数据
+        :param train_data: 传入的数据（字典）
         :return: 删好的数据
         """
         count = 0
@@ -83,16 +81,16 @@ class MicroCauseRunner(BaseRunner):
         self.rca_model = microcause_rca_model.build(self.data_loader.train_data, self.config_dict['rca_model'])
 
         # 验证集异常检测与预处理
-
+        # 无监督时不需要
         # self.data_loader.valid_data = self.data_merge(self.data_loader.train_data, self.spot_result_list)
-
-        # 在验证集上进行根因定位测试
-        microcause_localization = MicroCauseLocalization()
-        # self.mergemodel(self.data_loader.valid_data,self.spot_result_list)
-        result_dict = microcause_localization.localize(rca_model=self.rca_model,
-                                                       data=self.data_loader.train_data,
-                                                       config=self.config_dict['localization'])
-        print(result_dict)
+        #
+        # # 在验证集上进行根因定位测试
+        # microcause_localization = MicroCauseLocalization()
+        # # self.mergemodel(self.data_loader.valid_data,self.spot_result_list)
+        # result_dict = microcause_localization.localize(rca_model=self.rca_model,
+        #                                                data=self.data_loader.valid_data,
+        #                                                config=self.config_dict['localization'])
+        #print(result_dict)
         # TODO: 加入评价指标并将评价结果记录、输出
 
     def test(self):
@@ -104,6 +102,7 @@ class MicroCauseRunner(BaseRunner):
         result_dict = test_localization.localize(rca_model=self.rca_model,
                                                  data=self.data_loader.test_data,
                                                  config=self.config_dict['localization'])
+        print(result_dict)
         return result_dict
 
     def data_preparation(self, train_data, ad_model):

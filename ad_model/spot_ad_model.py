@@ -13,8 +13,7 @@ class SpotADModel(BaseADModel):
 
     def detect_anomaly(self, data, mode):
         """
-        样例异常检测（输入输出示例，并没有真正的异常检测）
-
+        样例异常检测
         :param data: dict，表征metric，与data_model/metric_data_model.py中的结构相同.
         :param mode: 异常检测模式，只检测第一个（取值为single）还是全部的（all）异常点.
         :return list，元素为异常时间点对应的时间戳，如果list为空证明检测的数据是正常的.
@@ -46,8 +45,6 @@ class SpotADModel(BaseADModel):
         if n_init is None:
             n_init = int(0.5 * len(data))
         for svc_id in range(len(data[0])):
-
-
             print("{:-^40}".format("svc_id: {}".format(svc_id)))
             init_data = data[:n_init,svc_id] # initial batch
             _data = data[n_init:,svc_id]  # stream
@@ -67,7 +64,7 @@ class SpotADModel(BaseADModel):
         :param data: 读取到的数据
         :param spot_res: 跑完spot之后的得到的结果
         :param n_init: 中间截断位置
-        :return: eta,每个度量的异常水平，ab_timepoint异常发生时间，都是list
+        :return: eta,每个度量的异常水平；ab_timepoint异常发生时间，都是list
         """
         eta = np.zeros([len(data[0])])
         ab_timepoint = [0 for i in range(len(data[0]))]

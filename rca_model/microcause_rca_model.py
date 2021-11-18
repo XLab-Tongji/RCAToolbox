@@ -35,7 +35,6 @@ class MicroCauseRCAModel(BaseRCAModel):
     def run_pcmci(train_data, pc_alpha=0.1, verbosity=0):
         """
         跑改进的PC算法获得关系矩阵
-
         :param train_data: 原数据
         :param pc_alpha: 参数
         :param verbosity: 参数
@@ -55,7 +54,7 @@ class MicroCauseRCAModel(BaseRCAModel):
         :param pcmci:跑pc之后的结果
         :param results: pcmci_res
         :param alpha_level: 参数
-        :return: 关系依赖图
+        :return: 关系联系图（不带边权值）
         """
         pcmci_links = pcmci.return_significant_links(results['p_matrix'], results['val_matrix'],
                                                      alpha_level=alpha_level, include_lagzero_links=False)
@@ -78,7 +77,7 @@ class MicroCauseRCAModel(BaseRCAModel):
 
         model = dict()
         for experiment_id, data in train_data.items():
-            metric_data = data['metric']
+            #metric_data = data['metric']
             header, metric_sample_matrix = self.get_metric_data(data)
 
             matrix = ADUtils.get_martix(data)
