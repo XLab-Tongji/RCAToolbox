@@ -1,8 +1,26 @@
 import numpy as np
+
+
 class ADUtils:
     """
     通用的一些异常检测的工具函数
     """
+
+    @staticmethod
+    def get_metric_data(data):
+        """
+        从data（字典）中提取数据，有service的名字；service数据的矩阵
+        :param data: DataLoader读出的所有数据
+        :return: 二元元组，包括metric名称列表及数据二维矩阵
+        """
+        metric_data = data['metric']
+        header = [metric_data[i].name for i in range(len(metric_data))]
+        metric_sample_list = [metric_data[i].sample['value'] for i in range(len(metric_data))]
+        metric_sample_matrix = np.array(metric_sample_list)
+        idx = np.argwhere(np.all(metric_sample_matrix[..., :] == 0, axis=1))
+        metric_sample_matrix = np.delete(metric_sample_matrix, idx, axis=0)
+        header = np.delete(header, idx, axis=0)
+        return header, metric_sample_matrix
 
     @staticmethod
     def ad_metric_find_first_timestamp(ad_model, metric_list):
@@ -54,22 +72,22 @@ class ADUtils:
 
         return result_list
 
-
+    @staticmethod
     def get_martix(data):
         """
         将字典里的数据展开为一个矩阵
         :param data: 读取到的data，是个字典
         :return: 一个展开的矩阵
         """
-        x=len(data['metric'])
-        y=len(data['metric'][0].sample['value'])
-        matrix=np.zeros((y,x))
-        i=0
-        j=0
+        x = len(data['metric'])
+        y = len(data['metric'][0].sample['value'])
+        matrix = np.zeros((y, x))
+        i = 0
+        j = 0
         for item in data['metric']:
             for value in item.sample['value']:
-                matrix[j][i]=value
-                j+=1
-            i+=1
-            j=0
+                matrix[j][i] = value
+                j += 1
+            i += 1
+            j = 0
         return matrix

@@ -1,6 +1,8 @@
 from base.base_ad_model import BaseADModel
 import numpy as np
 from utils.spot import dSPOT
+
+
 class SpotADModel(BaseADModel):
     """
     spot检测
@@ -45,9 +47,11 @@ class SpotADModel(BaseADModel):
         if n_init is None:
             n_init = int(0.5 * len(data))
         for svc_id in range(len(data[0])):
-            print("{:-^40}".format("svc_id: {}".format(svc_id)))
-            init_data = data[:n_init,svc_id] # initial batch
-            _data = data[n_init:,svc_id]  # stream
+            # print("{:-^40}".format("svc_id: {}".format(svc_id)))
+            # TODO: 输出service头
+
+            init_data = data[:n_init, svc_id]  # initial batch
+            _data = data[n_init:, svc_id]  # stream
 
             s = dSPOT(q, d)  # DSPOT object
             s.fit(init_data, _data)  # data import
@@ -90,8 +94,11 @@ class SpotADModel(BaseADModel):
         spot_result = {}
         spot_res = self.run_spot(data, q=1e-3, d=150)
         eta, ab_timepoint = self.get_eta(data, spot_res, int(0.5 * len(data)))
-        for i in range(len(data[0])):
-            print(f"{i + 1:<2}: {eta[i]:>6.2f}")
-        spot_result['eta']=eta
-        spot_result['ab_timepoint']=ab_timepoint
+
+        # for i in range(len(data[0])):
+        #     print(f"{i + 1:<2}: {eta[i]:>6.2f}")
+        # TODO:输出各个service的异常分数
+
+        spot_result['eta'] = eta
+        spot_result['ab_timepoint'] = ab_timepoint
         return spot_result

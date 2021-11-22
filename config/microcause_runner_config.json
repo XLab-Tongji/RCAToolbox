@@ -5,7 +5,6 @@
     },
     "rca_model": {
         "testrun_round" : 1,
-
         "true_root_cause" : [6, 28, 30, 31],
         "n_init " : 1000,
         "pc_alpha":0.05,
@@ -14,13 +13,14 @@
         "alpha_level":0.001,
         "plot_figures ": false,
         "verbose ":false,
-        "kws" : {}
+        "kws" : {},
+        "frontend" : [14],
+        "rho":0.2
 
     },
     "localization": {
-        "frontend" : [14],
-        "rho":0.2,
         "teleportation_prob":0,
+        "frontend" : [14],
         "walk_step":15,
         "lambda_param":0.5
 

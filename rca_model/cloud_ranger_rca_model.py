@@ -14,21 +14,7 @@ class CloudRangerModel(BaseRCAModel):
     def __init__(self):
         super().__init__()
 
-    @staticmethod
-    def get_metric_data(data):
-        """
 
-        :param data: DataLoader读出的所有数据
-        :return: 二元元组，包括metric名称列表及数据二维矩阵
-        """
-        metric_data = data['metric']
-        header = [metric_data[i].name for i in range(len(metric_data))]
-        metric_sample_list = [metric_data[i].sample['value'] for i in range(len(metric_data))]
-        metric_sample_matrix = np.array(metric_sample_list)
-        idx = np.argwhere(np.all(metric_sample_matrix[..., :] == 0, axis=1))
-        metric_sample_matrix = np.delete(metric_sample_matrix, idx, axis=0)
-        header = np.delete(header, idx, axis=0)
-        return header, metric_sample_matrix
 
     @staticmethod
     def build_impact_graph(data, alpha):

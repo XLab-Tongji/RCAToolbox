@@ -8,7 +8,7 @@ from pre_processor.demo_pre_processor import DemoPreProcessor
 from ad_model.spot_ad_model import SpotADModel
 from utils.ad_utils import ADUtils
 from rca_model.microcause_rca_model import MicroCauseRCAModel
-from localization.microcause_localization import MicroCauseLocalization
+from localization.random_walk_localization import RandomWalkLocalization
 from notebook.services.config import ConfigManager
 
 
@@ -27,16 +27,16 @@ class MicroCauseRunner(BaseRunner):
         self.spot_result_list = []
 
     @staticmethod
-    def update_data(train_data):
+    def update_data(data):
         """
         将一行所有元素都相同或者有很长一段时间不动的数据的一整行都去掉，因为这一行的数据都没意义
-        :param train_data: 传入的数据（字典）
+        :param data: 传入的数据（字典）
         :return: 删好的数据
         """
         count = 0
         same_count = 0  # 检查一个service长时间不动的指标
         same_temp = 0
-        for _, item in train_data.items():
+        for _, item in data.items():
             for i in range(len(item['metric'])):
                 i = i - count
                 temp = item['metric'][i].sample['value'][0]
@@ -58,7 +58,7 @@ class MicroCauseRunner(BaseRunner):
                     item['metric'].remove(item['metric'][i])
                     count += 1
 
-        return train_data
+        return data
 
     def run(self):
         # 构建data_loader
@@ -85,7 +85,7 @@ class MicroCauseRunner(BaseRunner):
         # self.data_loader.valid_data = self.data_merge(self.data_loader.train_data, self.spot_result_list)
         #
         # # 在验证集上进行根因定位测试
-        # microcause_localization = MicroCauseLocalization()
+        # microcause_localization = RandomWalkLocalization()
         # # self.mergemodel(self.data_loader.valid_data,self.spot_result_list)
         # result_dict = microcause_localization.localize(rca_model=self.rca_model,
         #                                                data=self.data_loader.valid_data,
@@ -96,9 +96,9 @@ class MicroCauseRunner(BaseRunner):
     def test(self):
         # 测试集异常检测与预处理
         self.data_loader.test_data = self.update_data(self.data_loader.test_data)  # 删除无用数据列
-        self.data_loader.test_data = self.data_preparation(self.data_loader.test_data, self.ad_model)
+        self.data_loader.spot_result_list = self.data_preparation(self.data_loader.test_data, self.ad_model)
         # 在测试集上进行根因定位
-        test_localization = MicroCauseLocalization()
+        test_localization = RandomWalkLocalization()
         result_dict = test_localization.localize(rca_model=self.rca_model,
                                                  data=self.data_loader.test_data,
                                                  config=self.config_dict['localization'])

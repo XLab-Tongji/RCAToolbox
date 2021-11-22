@@ -1,6 +1,7 @@
 import networkx as nx
 import numpy as np
-
+import pandas as pd
+from pingouin import partial_corr
 from matplotlib import pyplot as plt
 
 from base.base_rca_model import BaseRCAModel
@@ -12,24 +13,9 @@ from utils.ad_utils import ADUtils
 
 class MicroCauseRCAModel(BaseRCAModel):
     """
-    MicroCause模型
+    MicroCause根因检测模型
     """
 
-    @staticmethod
-    def get_metric_data(data):
-        """
-
-        :param data: DataLoader读出的所有数据
-        :return: 二元元组，包括metric名称列表及数据二维矩阵
-        """
-        metric_data = data['metric']
-        header = [metric_data[i].name for i in range(len(metric_data))]
-        metric_sample_list = [metric_data[i].sample['value'] for i in range(len(metric_data))]
-        metric_sample_matrix = np.array(metric_sample_list)
-        idx = np.argwhere(np.all(metric_sample_matrix[..., :] == 0, axis=1))
-        metric_sample_matrix = np.delete(metric_sample_matrix, idx, axis=0)
-        header = np.delete(header, idx, axis=0)
-        return header, metric_sample_matrix
 
     @staticmethod
     def run_pcmci(train_data, pc_alpha=0.1, verbosity=0):
@@ -66,6 +52,140 @@ class MicroCauseRCAModel(BaseRCAModel):
                 g.add_edge(n, l[0])
         return g
 
+    @staticmethod
+    def get_Q_matrix(data, data_head, g, frontend, rho=0.2):
+        """
+        建立能为随机游走使用的关系依赖矩阵
+        :param data: 原数据
+        :param data_head: 数据头（service名字）
+        :param g: 关系依赖图
+        :param frontend: 开始节点
+        :param rho: 参数
+        :return:
+        """
+        corr = np.corrcoef(np.array(data).T)
+        for i in range(corr.shape[0]):
+            corr[i, i] = 0.0
+        corr = np.abs(corr)
+
+        Q = np.zeros([len(data_head), len(data_head)])
+        for e in g.edges():
+            Q[e[0], e[1]] = corr[frontend[0] - 1, e[1]]
+            backward_e = (e[1], e[0])
+            if backward_e not in g.edges():
+                Q[e[1], e[0]] = rho * corr[frontend[0] - 1, e[0]]
+
+        adj = nx.adj_matrix(g).todense()
+        for i in range(len(data_head)):
+            P_pc_max = None
+            res_l = np.array([corr[frontend[0] - 1, k] for k in adj[:, i]])
+            if corr[frontend[0] - 1, i] > np.max(res_l):
+                Q[i, i] = corr[frontend[0] - 1, i] - np.max(res_l)
+            else:
+                Q[i, i] = 0
+        l = []
+        for i in np.sum(Q, axis=1):
+            if i > 0:
+                l.append(1.0 / i)
+            else:
+                l.append(0.0)
+        l = np.diag(l)
+        Q = np.dot(l, Q)
+        return Q
+
+    @staticmethod
+    def get_Q_matrix_part_corr(data, data_head, g, frontend, rho=0.2):
+        """
+        建立能为随机游走使用的关系依赖矩阵
+        :param data: 原数据
+        :param data_head: 数据头（service名字）
+        :param g: 关系依赖图
+        :param frontend:开始节点
+        :param rho:参数
+        :return: 异常排名表
+        """
+        df = pd.DataFrame(data, columns=data_head)
+
+        def get_part_corr(x, y):
+            cond = get_confounders(y)
+            if x in cond:
+                cond.remove(x)
+            if y in cond:
+                cond.remove(y)
+            ret = partial_corr(data=df,
+                               x=df.columns[x], y=df.columns[y], covar=[df.columns[_] for _ in cond],
+                               method='pearson')
+            # For a valid transition probability, use absolute correlation values.
+            return abs(float(ret.r))
+
+        # Calculate the parent nodes set.
+        pa_set = {}
+        for e in g.edges():
+            # Skip self links.
+            if e[0] == e[1]:
+                continue
+            if e[1] not in pa_set:
+                pa_set[e[1]] = set([e[0]])
+            else:
+                pa_set[e[1]].add(e[0])
+        # Set an empty set for the nodes without parent nodes.
+        for n in g.nodes():
+            if n not in pa_set:
+                pa_set[n] = set([])
+
+        def get_confounders(j: int):
+            ret = pa_set[frontend[0] - 1].difference([j])
+            ret = ret.union(pa_set[j])
+            return ret
+
+        Q = np.zeros([len(data_head), len(data_head)])
+        for e in g.edges():
+            # Do not add self links.
+            if e[0] == e[1]:
+                continue
+            # e[0] --> e[1]: cause --> result
+            # Forward step.
+            # Note for partial correlation, the two variables cannot be the same.
+            if frontend[0] - 1 != e[0]:
+                Q[e[1], e[0]] = get_part_corr(frontend[0] - 1, e[0])
+            # Backward step
+            backward_e = (e[1], e[0])
+            # Note for partial correlation, the two variables cannot be the same.
+            if backward_e not in g.edges() and frontend[0] - 1 != e[1]:
+                Q[e[0], e[1]] = rho * get_part_corr(frontend[0] - 1, e[1])
+
+        adj = nx.adj_matrix(g).todense()
+        for i in range(len(data_head)):
+            # Calculate P_pc^max
+            P_pc_max = []
+            # (k, i) in edges.
+            for k in adj[:, i].nonzero()[0]:
+                # Note for partial correlation, the two variables cannot be the same.
+                if frontend[0] - 1 != k:
+                    P_pc_max.append(get_part_corr(frontend[0] - 1, k))
+            if len(P_pc_max) > 0:
+                P_pc_max = np.max(P_pc_max)
+            else:
+                P_pc_max = 0
+
+            # Note for partial correlation, the two variables cannot be the same.
+            if frontend[0] - 1 != i:
+                q_ii = get_part_corr(frontend[0] - 1, i)
+                if q_ii > P_pc_max:
+                    Q[i, i] = q_ii - P_pc_max
+                else:
+                    Q[i, i] = 0
+
+        l = []
+        for i in np.sum(Q, axis=1):
+            if i > 0:
+                l.append(1.0 / i)
+            else:
+                l.append(0.0)
+        l = np.diag(l)
+        Q = np.dot(l, Q)
+        return Q
+
     def build(self, train_data, config):
         """
         样例异常检测（输入输出示例，并没有真正的异常检测）
@@ -77,14 +197,15 @@ class MicroCauseRCAModel(BaseRCAModel):
 
         model = dict()
         for experiment_id, data in train_data.items():
-            #metric_data = data['metric']
-            header, metric_sample_matrix = self.get_metric_data(data)
-
+            # metric_data = data['metric']
+            header, metric_sample_matrix = ADUtils.get_metric_data(data)
             matrix = ADUtils.get_martix(data)
             pcmci, pcmci_res = self.run_pcmci(matrix, config['pc_alpha'], config['verbosity'])
             g = self.get_links(matrix, pcmci, pcmci_res, config['alpha_level'])
-            plt.figure(figsize=config['figure_size'])
-            nx.draw_networkx(g, pos=nx.circular_layout(g))
-            model[experiment_id] = {'pcmci': pcmci, 'pcici_res': pcmci_res, 'graph': g, 'header': header}
+            Q = self.get_Q_matrix_part_corr(matrix, header, g, config['frontend'], config["rho"])
+            # plt.figure(figsize=config['figure_size'])
+            # nx.draw_networkx(g, pos=nx.circular_layout(g))
+            # TODO:画关系图
+            model[experiment_id] = {'pcmci': pcmci, 'pcici_res': pcmci_res, 'graph': g, 'header': header, 'Q': Q}
 
         return model
