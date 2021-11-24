@@ -2,7 +2,7 @@
 
 ## 整体框架
 <div align="center">
-<img src="https://github.com/XLab-Tongji/RCAToolbox/tree/File/ZHS/week7/extract_correlation_between_logs_and_metrics.png" width=50%>
+<img src="https://raw.githubusercontent.com/XLab-Tongji/RCAToolbox/File/ZHS/week7/extract_correlation_between_logs_and_metrics.png" width=50%>
 </div>
 
 
