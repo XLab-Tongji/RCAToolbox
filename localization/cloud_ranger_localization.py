@@ -56,5 +56,4 @@ class CloudRangerLocalization(BaseLocalization):
             model = rca_model[experiment_id]
             result_dict[experiment_id] = self.second_order_random_walk(model['header'], model['M'], config['epochs'],
                                                                        config['front_end'], config['steps'])
-            break
         return result_dict
