@@ -6,11 +6,11 @@
     "rca_model": {
         "alpha": 0.1,
         "rho": 0.2,
-        "front_end": 5
+        "frontend": 5
     },
     "localization": {
         "rank_paces": 10,
         "walk_step": 1000,
-        "front_end": 5
+        "frontend": 5
     }
 }

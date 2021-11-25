@@ -18,8 +18,7 @@ class RandomWalkLocalization(BaseLocalization):
         result_dict = dict()
         for experiment_id, test_data in data.items():
             model = rca_model[experiment_id]
-            vis_list = first_order_random_walk(test_data, model['Q'], 1000, config['frontend'][0],
+            result_dict[experiment_id] = first_order_random_walk(test_data, model['pc_graph'], 1000, config['frontend'],
                                                config["teleportation_prob"],
                                                config["walk_step"])
-            result_dict[experiment_id] = vis_list
         return result_dict

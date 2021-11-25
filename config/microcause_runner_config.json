@@ -16,13 +16,11 @@
         "kws" : {},
         "frontend" : [14],
         "rho":0.2
-
     },
     "localization": {
         "teleportation_prob":0,
         "frontend" : [14],
         "walk_step":15,
         "lambda_param":0.5
-
     }
 }

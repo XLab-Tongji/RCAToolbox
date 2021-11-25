@@ -1,5 +1,6 @@
 import numpy as np
 
+from utils import random_walk
 from base.base_localization import BaseLocalization
 
 
@@ -49,9 +50,8 @@ class MonitorRankLocalization(BaseLocalization):
 
         result = dict()
         for experiment_id in rca_model.keys():
-            label = [i for i in range(0, len(rca_model[experiment_id]['P']))]
-            result[experiment_id] = self.firstorder_randomwalk(rca_model[experiment_id]['P'], config['rank_paces'],
-                                                               config['front_end'],
-                                                               rca_model[experiment_id]['teleportation_prob'], label,
+            result[experiment_id] = random_walk.first_order_random_walk(data[experiment_id],rca_model[experiment_id]['pc_graph'], config['rank_paces'],
+                                                               config['frontend'],
+                                                               rca_model[experiment_id]['teleportation_prob'],
                                                                config['walk_step'], print_trace=False,)
         return result

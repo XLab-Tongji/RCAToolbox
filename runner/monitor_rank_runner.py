@@ -7,6 +7,7 @@ import numpy as np
 from base.base_runner import BaseRunner
 from data_reader.standard_data_reader import StandardDataReader
 from data_loader.standard_data_loader import StandardDataLoader
+from localization.random_walk_localization import RandomWalkLocalization
 from pre_processor.demo_pre_processor import DemoPreProcessor
 from ad_model.metric_test_ad_model import MetricTestADModel
 from rca_model.monitor_rank_rca_model import MonitorRankRCAModel
@@ -46,20 +47,14 @@ class MonitorRankRunner(BaseRunner):
         # 在验证集上进行根因定位测试
         monitor_rank_localization = MonitorRankLocalization()
         result_dict = monitor_rank_localization.localize(rca_model=self.rca_model,
-                                                         data=self.data_loader.valid_data,
+                                                         data=self.data_loader.test_data,
                                                          config=self.config_dict['localization'])
         # for item in result_dict.items():
         #     print('result',item)
 
         for experiment_id in result_dict.keys():
-            result_list = []
-            for service in result_dict[experiment_id]:
-                index = service[0]
-                name = self.rca_model[experiment_id]['header'][index]
-                result_list.append((name, service[1]))
-            result_name_dict = dict()
-            result_name_dict[experiment_id] = result_list
-            print("run_result", result_name_dict)
+
+            print("run_result", result_dict[experiment_id])
 
     def test(self):
         # 测试集异常检测与预处理
@@ -69,14 +64,8 @@ class MonitorRankRunner(BaseRunner):
         result_dict = monitor_rank_localization.localize(rca_model=self.rca_model, data=self.data_loader.test_data,
                                                          config=self.config_dict['localization'])
         for experiment_id in result_dict.keys():
-            result_list = []
-            for service in result_dict[experiment_id]:
-                index = service[0]
-                name = self.rca_model[experiment_id]['header'][index]
-                result_list.append((name, service[1]))
-            result_name_dict = dict()
-            result_name_dict[experiment_id] = result_list
-            print("test_result", result_name_dict)
+
+            print("test_result", result_dict)
         # for item in result_dict.items():
         #     print('result', item)
         return result_dict

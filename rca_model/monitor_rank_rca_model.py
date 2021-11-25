@@ -73,8 +73,8 @@ class MonitorRankRCAModel(BaseRCAModel):
             header, data = self.get_metric_data(train_data[experiment_id])
             rela = calc_pearson(data, method="numpy", zero_diag=False)  # 皮尔森相关系数计算,返回一个实验对应一个相关系数矩阵
             base_dir = str(os.path.dirname(os.path.dirname(__file__)))
-            if os.path.exists(base_dir+'/data/demo/metric/dep_graph/'+experiment_id + '.xlsx'):
-             wb = load_workbook(base_dir+'/data/demo/metric/dep_graph/'+experiment_id+'.xlsx')
+            if os.path.exists(base_dir+'/saved/model/monitor_rank_runner/'+experiment_id + '.xlsx'):
+             wb = load_workbook(base_dir+'/saved/model/monitor_rank_runner/'+experiment_id+'.xlsx')
              sheets = wb.worksheets
              # 获取第一张sheet
              sheet1 = sheets[0]
@@ -97,10 +97,10 @@ class MonitorRankRCAModel(BaseRCAModel):
                         ws.cell(i+1, j+1).value = call_graph[i][j]
                 wb.save(base_dir+'/data/demo/metric/dep_graph/'+experiment_id + '.xlsx')
 
-            p, teleportation_prob = self.rela_to_rank(rela, call_graph, config['front_end'])
+            p, teleportation_prob = self.rela_to_rank(rela, call_graph, config['frontend'])
             out = dict()
             out['header'] = header
-            out['P'] = p
+            out['pc_graph'] = p
             out['teleportation_prob'] = teleportation_prob
             model[experiment_id] = out
         return model
