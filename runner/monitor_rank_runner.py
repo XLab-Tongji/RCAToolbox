@@ -49,12 +49,15 @@ class MonitorRankRunner(BaseRunner):
         result_dict = monitor_rank_localization.localize(rca_model=self.rca_model,
                                                          data=self.data_loader.test_data,
                                                          config=self.config_dict['localization'])
-        # for item in result_dict.items():
-        #     print('result',item)
-
+        #将label转为微服务名
+        label_to_name_result=dict()
         for experiment_id in result_dict.keys():
+            label_to_name=dict()
+            for item in result_dict[experiment_id]:
+                label_to_name[self.data_loader.test_data[experiment_id]['metric'][item[0]].name]=item[1]
+            label_to_name_result[experiment_id]=label_to_name
+            print("run_result",label_to_name_result[experiment_id])
 
-            print("run_result", result_dict[experiment_id])
 
     def test(self):
         # 测试集异常检测与预处理
@@ -63,11 +66,14 @@ class MonitorRankRunner(BaseRunner):
         monitor_rank_localization = RandomWalkLocalization(order=1)
         result_dict = monitor_rank_localization.localize(rca_model=self.rca_model, data=self.data_loader.test_data,
                                                          config=self.config_dict['localization'])
+        #将label转为微服务名
+        label_to_name_result = dict()
         for experiment_id in result_dict.keys():
-
-            print("test_result", result_dict)
-        # for item in result_dict.items():
-        #     print('result', item)
+            label_to_name = dict()
+            for item in result_dict[experiment_id]:
+                label_to_name[self.data_loader.test_data[experiment_id]['metric'][item[0]].name] = item[1]
+            label_to_name_result[experiment_id] = label_to_name
+            print("test_result", label_to_name_result[experiment_id])
         return result_dict
 
     def data_preparation(self, raw_data, ad_model):
