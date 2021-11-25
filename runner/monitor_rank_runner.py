@@ -12,12 +12,12 @@ from pre_processor.demo_pre_processor import DemoPreProcessor
 from ad_model.metric_test_ad_model import MetricTestADModel
 from rca_model.monitor_rank_rca_model import MonitorRankRCAModel
 from utils.ad_utils import ADUtils
-from localization.monitor_rank_localization import MonitorRankLocalization
+
 
 
 class MonitorRankRunner(BaseRunner):
     """
-    示例runner(整合整个根因分析过程).
+    monitor_rank_runner(整合整个根因分析过程).
 
     Attributes:
         config_dict: 异常检测、根因分析、定位的参数配置.
