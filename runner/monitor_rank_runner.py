@@ -45,7 +45,7 @@ class MonitorRankRunner(BaseRunner):
         # 验证集异常检测与预处理
         self.data_loader.valid_data = self.data_preparation(self.data_loader.valid_data, self.ad_model)
         # 在验证集上进行根因定位测试
-        monitor_rank_localization = MonitorRankLocalization()
+        monitor_rank_localization = RandomWalkLocalization()
         result_dict = monitor_rank_localization.localize(rca_model=self.rca_model,
                                                          data=self.data_loader.test_data,
                                                          config=self.config_dict['localization'])

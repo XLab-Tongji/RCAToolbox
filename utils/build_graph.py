@@ -3,7 +3,7 @@ from causality.inference.independence_tests import RobustRegressionTest
 import pandas as pd
 
 
-def build_impact_graph(data, alpha):
+def build_pc_graph(data, alpha):
     """
     通过PC算法构建影响图
 

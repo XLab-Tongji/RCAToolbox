@@ -1,4 +1,5 @@
 from base.base_localization import BaseLocalization
+from utils import random_walk
 from utils.random_walk import first_order_random_walk
 
 
@@ -15,10 +16,11 @@ class RandomWalkLocalization(BaseLocalization):
         :param config: 模型参数.
         :return dict，每组实验定位的结果，key为experiment_id，value类型为list，其中的每个元素为元组，第一个维度标识根因，第二个维度标识可能性（或评判可能性的依据），按可能性由大到小排列.
         """
-        result_dict = dict()
-        for experiment_id, test_data in data.items():
-            model = rca_model[experiment_id]
-            result_dict[experiment_id] = first_order_random_walk(test_data, model['pc_graph'], 1000, config['frontend'],
-                                               config["teleportation_prob"],
-                                               config["walk_step"])
-        return result_dict
+        result = dict()
+        for experiment_id in rca_model.keys():
+            result[experiment_id] = random_walk.first_order_random_walk(rca_model[experiment_id]['pc_graph'],
+                                                                        config['rank_paces'],
+                                                                        config['frontend'],
+                                                                        rca_model[experiment_id]['teleportation_prob'],
+                                                              config['walk_step'], print_trace=False, )
+        return result

@@ -1,7 +1,7 @@
 from base.base_rca_model import BaseRCAModel
 from utils.ad_utils import ADUtils
 from utils.data_helper import normalize
-from utils.build_graph import build_impact_graph
+from utils.build_graph import build_pc_graph
 import numpy as np
 
 
@@ -96,7 +96,7 @@ class CloudRangerModel(BaseRCAModel):
 
         for experiment_id, data in train_data.items():
             header, metric_sample_matrix = ADUtils.get_metric_data(data)
-            impact_graph = build_impact_graph(metric_sample_matrix, config['alpha'])
+            impact_graph = build_pc_graph(metric_sample_matrix, config['alpha'])
             # TODO: save impact_graph to saved/model/cloud_ranger_runner/
             correlation_matrix = self.build_correlation_matrix(metric_sample_matrix)
             prob_matrix = self.build_prob_matrix(impact_graph, correlation_matrix, config['front_end'],
