@@ -1,6 +1,3 @@
-import os
-import json
-import sys
 from base.base_runner import BaseRunner
 from data_reader.standard_data_reader import StandardDataReader
 from data_loader.standard_data_loader import StandardDataLoader
@@ -8,7 +5,9 @@ from pre_processor.demo_pre_processor import DemoPreProcessor
 from ad_model.metric_test_ad_model import MetricTestADModel
 from utils.ad_utils import ADUtils
 from rca_model.cloud_ranger_rca_model import CloudRangerModel
-from localization.cloud_ranger_localization import CloudRangerLocalization
+from localization.random_walk_localization import RandomWalkLocalization
+import os
+import json
 
 
 class CloudRangerRunner(BaseRunner):
@@ -44,7 +43,7 @@ class CloudRangerRunner(BaseRunner):
         # 验证集异常检测与预处理
         self.data_loader.valid_data = self.data_preparation(self.data_loader.valid_data, self.ad_model)
         # 在验证集上进行根因定位测试
-        cloud_ranger_localization = CloudRangerLocalization()
+        cloud_ranger_localization = RandomWalkLocalization(order=2)
         result_dict = cloud_ranger_localization.localize(rca_model=self.rca_model,
                                                          data=self.data_loader.valid_data,
                                                          config=self.config_dict['localization'])
@@ -55,11 +54,12 @@ class CloudRangerRunner(BaseRunner):
         # 测试集异常检测与预处理
         self.data_loader.test_data = self.data_preparation(self.data_loader.test_data, self.ad_model)
         # 在测试集上进行根因定位
-        cloud_ranger_localization = CloudRangerLocalization()
+        cloud_ranger_localization = RandomWalkLocalization(order=2)
         result_dict = cloud_ranger_localization.localize(rca_model=self.rca_model,
                                                          data=self.data_loader.test_data,
                                                          config=self.config_dict['localization'])
         print('Results on test set:', result_dict)
+        return result_dict
 
     def data_preparation(self, raw_data, ad_model):
         """

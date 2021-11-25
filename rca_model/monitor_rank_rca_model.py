@@ -1,11 +1,9 @@
-
-
 import numpy as np
 from openpyxl import load_workbook, Workbook
 import os
 from base.base_rca_model import BaseRCAModel
 from utils.pearson import calc_pearson
-from utils.build_graph import build_pc_graph
+from utils.build_graph import build_graph_pc
 
 
 class MonitorRankRCAModel(BaseRCAModel):
@@ -86,7 +84,7 @@ class MonitorRankRCAModel(BaseRCAModel):
                          row_data.append(cell.value)
                  call_graph.append(row_data)
             else:
-                call_graph = build_pc_graph(data, config['alpha'])
+                call_graph = build_graph_pc(data, config['alpha'])
                 call_graph = np.array(call_graph)
                 # 创建一个Workbook对象
                 wb = Workbook()

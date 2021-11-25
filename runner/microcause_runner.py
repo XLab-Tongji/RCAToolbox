@@ -98,7 +98,7 @@ class MicroCauseRunner(BaseRunner):
         self.data_loader.test_data = self.update_data(self.data_loader.test_data)  # 删除无用数据列
         self.data_loader.spot_result_list = self.data_preparation(self.data_loader.test_data, self.ad_model)
         # 在测试集上进行根因定位
-        test_localization = RandomWalkLocalization()
+        test_localization = RandomWalkLocalization(order=1)
         result_dict = test_localization.localize(rca_model=self.rca_model,
                                                  data=self.data_loader.test_data,
                                                  config=self.config_dict['localization'])

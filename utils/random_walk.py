@@ -54,3 +54,37 @@ def first_order_random_walk(
     score_list.sort(key=lambda x: x[1], reverse=True)
     return score_list
 
+
+def second_order_random_walk(header, edge_trans_prob, epochs, front_end, steps):
+    """
+    二阶随机游走算法
+
+    :param header: 数据头，即服务名
+    :param edge_trans_prob: 边转移概率矩阵
+    :param epochs: 轮数
+    :param front_end: 前端节点
+    :param steps: 单轮随机游走步数
+    :return: 相关性得分列表，按分数降序排列
+    """
+    n = edge_trans_prob.shape[0]
+    score = np.zeros([n])
+    for epoch in range(epochs):
+        previous = front_end - 1
+        current = front_end - 1
+        for step in range(steps):
+            if np.sum(edge_trans_prob[previous, current]) == 0:
+                break
+            next_node = np.random.choice(range(n), p=edge_trans_prob[previous, current])
+            score[next_node] += 1
+            previous = current
+            current = next_node
+    score_list = list(zip(header, score))
+
+    # 排序 并排除score为0的项
+    score_list.sort(key=lambda x: x[1], reverse=True)
+    for index, pair in enumerate(score_list):
+        if pair[1] == 0:
+            score_list = score_list[0:index]
+            break
+    return score_list
+

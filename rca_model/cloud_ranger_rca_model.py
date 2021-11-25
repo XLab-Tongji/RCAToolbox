@@ -1,7 +1,9 @@
 from base.base_rca_model import BaseRCAModel
 from utils.ad_utils import ADUtils
 from utils.data_helper import normalize
-from utils.build_graph import build_pc_graph
+from utils.build_graph import build_graph_pc
+from openpyxl import Workbook
+import os
 import numpy as np
 
 
@@ -96,11 +98,22 @@ class CloudRangerModel(BaseRCAModel):
 
         for experiment_id, data in train_data.items():
             header, metric_sample_matrix = ADUtils.get_metric_data(data)
-            impact_graph = build_pc_graph(metric_sample_matrix, config['alpha'])
-            # TODO: save impact_graph to saved/model/cloud_ranger_runner/
+            impact_graph = build_graph_pc(metric_sample_matrix, config['alpha'])
             correlation_matrix = self.build_correlation_matrix(metric_sample_matrix)
             prob_matrix = self.build_prob_matrix(impact_graph, correlation_matrix, config['front_end'],
                                                  config['beta'], config['rho'])
             model[experiment_id] = {'G': impact_graph, 'M': prob_matrix, 'header': header}
+
+            # 保存PC算法构建的影响图
+            saved_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
+                                      'saved/model/cloud_ranger_runner')
+            full_path = os.path.join(saved_path, f"{experiment_id}.xlsx")
+            if not os.path.exists(full_path):
+                wb = Workbook()
+                ws = wb.active
+                for i in range(len(impact_graph)):
+                    for j in range(len(impact_graph[i])):
+                        ws.cell(i + 1, j + 1).value = impact_graph[i][j]
+                wb.save(full_path)
 
         return model
