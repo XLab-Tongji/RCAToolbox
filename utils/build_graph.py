@@ -6,7 +6,6 @@ import pandas as pd
 def build_graph_pc(data, alpha):
     """
     通过PC算法构建影响图
-
     :param data: 数据集
     :param alpha: 显著性水平，用于进行条件独立性判断
     :return: impact graph的矩阵表示

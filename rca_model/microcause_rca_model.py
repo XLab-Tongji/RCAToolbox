@@ -5,9 +5,7 @@ from pingouin import partial_corr
 from matplotlib import pyplot as plt
 
 from base.base_rca_model import BaseRCAModel
-import tigramite.data_processing as pp
-from tigramite.pcmci import PCMCI
-from tigramite.independence_tests import ParCorr
+from utils.build_pcmci_graph import build_graph_pcmci
 from utils.ad_utils import ADUtils
 
 
@@ -15,23 +13,6 @@ class MicroCauseRCAModel(BaseRCAModel):
     """
     MicroCause根因检测模型
     """
-
-
-    @staticmethod
-    def run_pcmci(train_data, pc_alpha=0.1, verbosity=0):
-        """
-        跑改进的PC算法获得关系矩阵
-        :param train_data: 原数据
-        :param pc_alpha: 参数
-        :param verbosity: 参数
-        :return:
-        """
-        dataframe = pp.DataFrame(train_data)
-        cond_ind_test = ParCorr()
-        pcmci = PCMCI(dataframe=dataframe, cond_ind_test=cond_ind_test, verbosity=verbosity)
-        pcmci_res = pcmci.run_pcmci(tau_max=10, pc_alpha=pc_alpha)
-        return pcmci, pcmci_res
-
     @staticmethod
     def get_links(train_data, pcmci, results, alpha_level=0.01):
         """
@@ -189,7 +170,6 @@ class MicroCauseRCAModel(BaseRCAModel):
     def build(self, train_data, config):
         """
         样例异常检测（输入输出示例，并没有真正的异常检测）
-
         :param train_data: 训练数据，与base/base_data_loader.py中读入的train_data格式一致.
         :param config: 模型参数.
         :return 如果是每组实验一个模型，返回一个dict，key为experiment_id；如果是训练集整个是一个模型，返回该模型.
@@ -200,12 +180,11 @@ class MicroCauseRCAModel(BaseRCAModel):
             # metric_data = data['metric']
             header, metric_sample_matrix = ADUtils.get_metric_data(data)
             matrix = ADUtils.get_martix(data)
-            pcmci, pcmci_res = self.run_pcmci(matrix, config['pc_alpha'], config['verbosity'])
-            g = self.get_links(matrix, pcmci, pcmci_res, config['alpha_level'])
-            Q = self.get_Q_matrix_part_corr(matrix, header, g, config['frontend'], config["rho"])
-            # plt.figure(figsize=config['figure_size'])
-            # nx.draw_networkx(g, pos=nx.circular_layout(g))
+            pcmci, pcmci_res = build_graph_pcmci.run_pcmci(matrix, config['pc_alpha'], config['verbosity'])
+            graph_without_weight = self.get_links(matrix, pcmci, pcmci_res, config['alpha_level'])
+            pc_graph = self.get_Q_matrix_part_corr(matrix, header, graph_without_weight, config['frontend'], config["rho"])
+
             # TODO:画关系图
-            model[experiment_id] = {'pcmci': pcmci, 'pcici_res': pcmci_res, 'graph': g, 'header': header, 'Q': Q}
+            model[experiment_id] = {'pcmci': pcmci, 'pcici_res': pcmci_res, 'graph_without_weight': graph_without_weight, 'header': header, 'pc_graph': pc_graph}
 
         return model
