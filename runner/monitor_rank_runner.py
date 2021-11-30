@@ -1,7 +1,5 @@
 import os
 import json
-
-
 import numpy as np
 
 from base.base_runner import BaseRunner
@@ -12,7 +10,7 @@ from pre_processor.demo_pre_processor import DemoPreProcessor
 from ad_model.metric_test_ad_model import MetricTestADModel
 from rca_model.monitor_rank_rca_model import MonitorRankRCAModel
 from utils.ad_utils import ADUtils
-
+from utils.config_handler import config_loader
 
 
 class MonitorRankRunner(BaseRunner):
@@ -24,8 +22,7 @@ class MonitorRankRunner(BaseRunner):
     """
     def __init__(self):
         super().__init__()
-        self.config_dict = dict()
-        self.config_loader()
+        self.config_dict = config_loader('monitor_rank_runner_config.json')
 
     def run(self):
         # 构建data_loader
@@ -100,17 +97,6 @@ class MonitorRankRunner(BaseRunner):
                                                      end_timestamp=first_timestamp + backward_interval)
             raw_data[experiment_id]['metric'] = filtered_data
         return raw_data
-
-    def config_loader(self):
-        """
-        加载配置文件
-        """
-        config_file_name = 'monitor_rank_runner_config.json'
-        config_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-        config_path = os.path.join(os.path.join(config_path, 'config'), config_file_name)
-        with open(config_path) as f:
-            config_dict = json.load(f)
-        self.config_dict = config_dict
 
     def evaluation(self):
         pass

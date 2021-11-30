@@ -8,6 +8,7 @@ from rca_model.cloud_ranger_rca_model import CloudRangerModel
 from localization.random_walk_localization import RandomWalkLocalization
 import os
 import json
+from utils.config_handler import config_loader
 
 
 class CloudRangerRunner(BaseRunner):
@@ -20,8 +21,7 @@ class CloudRangerRunner(BaseRunner):
 
     def __init__(self):
         super().__init__()
-        self.config_dict = dict()
-        self.config_loader()
+        self.config_dict = config_loader('cloud_ranger_runner_config.json')
 
     def run(self):
         # 构建data_loader
@@ -85,17 +85,6 @@ class CloudRangerRunner(BaseRunner):
                                                      end_timestamp=first_timestamp + backward_interval)
             raw_data[experiment_id]['metric'] = filtered_data
         return raw_data
-
-    def config_loader(self):
-        """
-        加载配置文件
-        """
-        config_file_name = 'cloud_ranger_runner_config.json'
-        config_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-        config_path = os.path.join(os.path.join(config_path, 'config'), config_file_name)
-        with open(config_path) as f:
-            config_dict = json.load(f)
-        self.config_dict = config_dict
 
     def evaluation(self):
         pass

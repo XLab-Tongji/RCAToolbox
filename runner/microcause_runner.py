@@ -10,6 +10,7 @@ from utils.ad_utils import ADUtils
 from rca_model.microcause_rca_model import MicroCauseRCAModel
 from localization.random_walk_localization import RandomWalkLocalization
 from notebook.services.config import ConfigManager
+from utils.config_handler import config_loader
 
 
 class MicroCauseRunner(BaseRunner):
@@ -22,8 +23,7 @@ class MicroCauseRunner(BaseRunner):
 
     def __init__(self):
         super().__init__()
-        self.config_dict = dict()
-        self.config_loader()
+        self.config_dict = config_loader('microcause_runner_config.json')
         self.spot_result_list = []
 
     @staticmethod
@@ -117,17 +117,6 @@ class MicroCauseRunner(BaseRunner):
             matrix = ADUtils.get_martix(data)
             model.append(ad_model.build_anomaly_model(matrix))
         return model
-
-    def config_loader(self):
-        """
-        加载配置文件
-        """
-        config_file_name = 'microcause_runner_config.json'
-        config_path = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-        config_path = os.path.join(os.path.join(config_path, 'config'), config_file_name)
-        with open(config_path) as f:
-            config_dict = json.load(f)
-        self.config_dict = config_dict
 
     def evaluation(self):
         pass
