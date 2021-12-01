@@ -69,8 +69,8 @@ def second_order_random_walk(header, edge_trans_prob, epochs, front_end, steps):
     n = edge_trans_prob.shape[0]
     score = np.zeros([n])
     for epoch in range(epochs):
-        previous = front_end - 1
-        current = front_end - 1
+        previous = front_end
+        current = front_end
         for step in range(steps):
             if np.sum(edge_trans_prob[previous, current]) == 0:
                 break

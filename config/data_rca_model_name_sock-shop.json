@@ -1,0 +1,14 @@
+{
+  "train": [
+    "20210718_123000_SockShopPerformance"
+  ],
+  "valid": [],
+  "test": [
+    "20210718_123000_SockShopPerformance"
+  ],
+  "data_type": {
+    "metric": true,
+    "tracing": false,
+    "logging": false
+  }
+}
