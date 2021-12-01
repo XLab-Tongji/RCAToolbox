@@ -60,7 +60,10 @@ class CloudRangerRunner(BaseRunner):
         result_dict = cloud_ranger_localization.localize(rca_model=self.rca_model,
                                                          data=self.data_loader.test_data,
                                                          config=self.config_dict['localization'])
-        print('Results on test set:', result_dict)
+        base_dir = str(os.path.dirname(os.path.dirname(__file__))) + '/saved/model/cloud_ranger_runner/'
+        filename = 'sock_shop.json'
+        with open(base_dir + filename, 'w') as json_file:
+            json_file.write(json.dumps(result_dict))
         return result_dict
 
     def data_preparation(self, raw_data):

@@ -142,4 +142,6 @@ cython_debug/
 
 # MacOS stuff
 .DS_Store
-/data/sock-shop/metric/
+
+# Uncompressed data set
+/data/sock-shop/metric/*.csv
