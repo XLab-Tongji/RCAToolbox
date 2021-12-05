@@ -85,16 +85,17 @@ class MonitorRankRunner(BaseRunner):
             backward_interval = self.config_dict['ad_model']['backward_interval']
 
             first_timestamp = ADUtils.ad_metric_find_first_timestamp(ad_model=ad_model,
-                                                                     metric_list=data['metric'])
+                                                                     metric_list=data['metric'],experiment_id=experiment_id)
             if len(first_timestamp) > 0:
-                first_timestamp = first_timestamp[0]
+                first_timestamp = first_timestamp[0][0]
             else:
                 # TODO: 日志记录下这里存在问题
                 ...
             filtered_data = ADUtils.ad_metric_filter(ad_model=ad_model,
                                                      metric_list=data['metric'],
                                                      start_timestamp=first_timestamp - forward_interval,
-                                                     end_timestamp=first_timestamp + backward_interval)
+                                                     end_timestamp=first_timestamp + backward_interval,
+                                                     experiment_id=experiment_id)
             raw_data[experiment_id]['metric'] = filtered_data
         return raw_data
 
