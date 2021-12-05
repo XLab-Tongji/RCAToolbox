@@ -13,7 +13,8 @@ class MonitorRankRCAModel(BaseRCAModel):
 
     @staticmethod
     def normalize(p):
-        """Normalize the matrix in each row
+        """
+        Normalize the matrix in each row
         """
         p = p.copy()
         for i in range(p.shape[0]):
