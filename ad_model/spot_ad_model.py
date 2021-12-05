@@ -64,19 +64,19 @@ class SpotADModel(BaseADModel):
         return result_dict
 
     @staticmethod
-    def get_eta(data, spot_res, n_init):
+    def get_eta(matrix, spot_res, n_init):
         """
         获得潜在可能根因
-        :param data: 读取到的数据
+        :param matrix: 读取到的数据
         :param spot_res: 跑完spot之后的得到的结果
         :param n_init: 中间截断位置
         :return: eta,每个度量的异常水平；ab_timepoint异常发生时间，都是list
         """
-        eta = np.zeros([len(data[0])])
-        ab_timepoint = [0 for i in range(len(data[0]))]
-        for svc_id in range(len(data[0])):
-            mask = data[n_init:, svc_id] > np.array(spot_res[svc_id]['thresholds'])
-            ratio = np.abs(data[n_init:, svc_id] - np.array(spot_res[svc_id]['thresholds'])) / np.array(
+        eta = np.zeros([len(matrix[0])])
+        ab_timepoint = [0 for i in range(len(matrix[0]))]
+        for svc_id in range(len(matrix[0])):
+            mask = matrix[n_init:, svc_id] > np.array(spot_res[svc_id]['thresholds'])
+            ratio = np.abs(matrix[n_init:, svc_id] - np.array(spot_res[svc_id]['thresholds'])) / np.array(
                 spot_res[svc_id]['thresholds'])
             if mask.nonzero()[0].shape[0] > 0:
                 eta[svc_id] = np.max(ratio[mask.nonzero()[0]])
@@ -85,17 +85,17 @@ class SpotADModel(BaseADModel):
                 eta[svc_id] = 0
         return eta, ab_timepoint
 
-    def build_anomaly_model(self, data):
+    def build_anomaly_model(self, matrix):
         """
         建立异常模型
-        :param data: 原数据
+        :param matrix: 原数据
         :return: 含有eta和ab_timepoint的字典
         """
 
         self.model = 'spot'
         spot_result = {}
-        spot_res = self.run_spot(data, q=1e-3, d=150)
-        eta, ab_timepoint = self.get_eta(data, spot_res, int(0.5 * len(data)))
+        spot_res = self.run_spot(matrix, q=1e-3, d=150)
+        eta, ab_timepoint = self.get_eta(matrix, spot_res, int(0.5 * len(matrix)))
 
         # for i in range(len(data[0])):
         #     print(f"{i + 1:<2}: {eta[i]:>6.2f}")

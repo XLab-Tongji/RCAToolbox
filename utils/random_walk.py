@@ -17,7 +17,7 @@ def change_label(vis_list, data):
 
 def first_order_random_walk(
         rca_model,
-        epoches,
+        epochs,
         start_node,
         teleportation_prob,
         walk_step=1000,
@@ -26,7 +26,7 @@ def first_order_random_walk(
     """
               根据训练集中的数据构建根因分析模型.
               :param rca_model: 构建好的根因分析模型,传入的应该是一个类似于矩阵的变量
-              :param epoches: 迭代次数
+              :param epochs: 迭代次数
               :param start_node:游走开始节点
               :param teleportation_prob:当算法陷入出度为0的节点，依照概率跳转到其他节点。
               :param walk_step:游走步长
@@ -37,7 +37,7 @@ def first_order_random_walk(
     n = rca_model.shape[0]
     score = np.zeros([n])
     current = start_node - 1
-    for epoch in range(epoches):
+    for epoch in range(epochs):
         if print_trace:
             print("\n{:2d}".format(current + 1), end="->")
         for step in range(walk_step):

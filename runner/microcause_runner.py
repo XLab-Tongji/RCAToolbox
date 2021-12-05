@@ -74,7 +74,7 @@ class MicroCauseRunner(BaseRunner):
         self.ad_model = SpotADModel()
 
         # 训练集异常检测与预处理
-        self.spot_result_list = self.data_preparation(self.data_loader.train_data, self.ad_model)
+        self.data_loader.train_data = self.data_preparation(self.data_loader.train_data)
 
         # RCA模型搭建（有监督的根据训练数据搭建，无监督的训练集等于测试集，因此搭建的就是测试集的模型）
         microcause_rca_model = MicroCauseRCAModel()
@@ -90,13 +90,13 @@ class MicroCauseRunner(BaseRunner):
         # result_dict = microcause_localization.localize(rca_model=self.rca_model,
         #                                                data=self.data_loader.valid_data,
         #                                                config=self.config_dict['localization'])
-        #print(result_dict)
+        # print(result_dict)
         # TODO: 加入评价指标并将评价结果记录、输出
 
     def test(self):
         # 测试集异常检测与预处理
         self.data_loader.test_data = self.update_data(self.data_loader.test_data)  # 删除无用数据列
-        self.data_loader.spot_result_list = self.data_preparation(self.data_loader.test_data, self.ad_model)
+        self.data_loader.test_data = self.data_preparation(self.data_loader.test_data)
         # 在测试集上进行根因定位
         test_localization = RandomWalkLocalization(order=1)
         result_dict = test_localization.localize(rca_model=self.rca_model,
@@ -105,21 +105,42 @@ class MicroCauseRunner(BaseRunner):
         print(result_dict)
         return result_dict
 
-    def data_preparation(self, train_data, ad_model):
+    def data_preparation(self, raw_data):
         """
         训练集、验证集、测试集可能需要统一地处理，归类到这里.
-        :param train_data: 训练集、验证集或测试集数据.
-        :param ad_model: 异常检测模型.
+        :param raw_data: 训练集、验证集或测试集数据.
         :return: dict，处理好的数据.(这里是跑完spot后的eta和ab_timepoint)
         """
-        model = []
-        for experiment_id, data in train_data.items():
+        result_dict = {
+            'data': dict(),
+            'entry_metric_name': dict(),
+            'spot_model': dict()
+        }
+        for experiment_id, data in raw_data.items():
             matrix = ADUtils.get_martix(data)
-            model.append(ad_model.build_anomaly_model(matrix))
-        return model
+            result_dict['spot_model'][experiment_id]=(self.ad_model.build_anomaly_model(matrix))
+            min= self.findmin(result_dict['spot_model'][experiment_id]['ab_timepoint'])
+            result_dict['entry_metric_name'][experiment_id]=result_dict['spot_model'][experiment_id]['ab_timepoint'].index(min)
+        result_dict['data'] = raw_data
+        return result_dict
 
     def evaluation(self):
         pass
+
+    def findmin(self,list):
+        """
+        找除0以外外最小值
+        Args:
+            list: 列表
+
+        Returns:
+            最小值
+        """
+        min=999999
+        for i in range(len(list)):
+            if list[i]!=0 and list[i]<min:
+                min=list[i]
+        return min
 
 
 if __name__ == '__main__':

@@ -18,9 +18,10 @@
         "rho":0.2
     },
     "localization": {
+        "epochs": 10,
         "teleportation_prob":0,
         "frontend" : [14],
-        "walk_step":15,
+        "walk_step":1000,
         "lambda_param":0.5
     }
 }

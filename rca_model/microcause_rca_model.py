@@ -5,7 +5,7 @@ from pingouin import partial_corr
 from matplotlib import pyplot as plt
 
 from base.base_rca_model import BaseRCAModel
-from utils.build_pcmci_graph import build_graph_pcmci
+from utils.build_graph_pcmci import build_graph_pcmci
 from utils.ad_utils import ADUtils
 
 
@@ -176,15 +176,15 @@ class MicroCauseRCAModel(BaseRCAModel):
         """
 
         model = dict()
-        for experiment_id, data in train_data.items():
+        for experiment_id, data in train_data['data'].items():
             # metric_data = data['metric']
             header, metric_sample_matrix = ADUtils.get_metric_data(data)
             matrix = ADUtils.get_martix(data)
-            pcmci, pcmci_res = build_graph_pcmci.run_pcmci(matrix, config['pc_alpha'], config['verbosity'])
+            pcmci, pcmci_res = build_graph_pcmci(matrix, config['pc_alpha'], config['verbosity'])
             graph_without_weight = self.get_links(matrix, pcmci, pcmci_res, config['alpha_level'])
             pc_graph = self.get_Q_matrix_part_corr(matrix, header, graph_without_weight, config['frontend'], config["rho"])
 
             # TODO:画关系图
-            model[experiment_id] = {'pcmci': pcmci, 'pcici_res': pcmci_res, 'graph_without_weight': graph_without_weight, 'header': header, 'pc_graph': pc_graph}
+            model[experiment_id] = {'pcmci': pcmci, 'pcici_res': pcmci_res, 'graph_without_weight': graph_without_weight, 'header': header, 'pc_graph': pc_graph,'frontend': train_data['entry_metric_name']}
 
         return model
