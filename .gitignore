@@ -145,3 +145,5 @@ cython_debug/
 
 # Uncompressed data set
 /data/sock-shop/metric/*.csv
+
+!/saved/model/cloud_ranger_runner/sock_shop/log

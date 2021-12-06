@@ -26,6 +26,9 @@ class RandomWalkLocalization(BaseLocalization):
         """
         result_dict = dict()
         for experiment_id, test_data in data['data'].items():
+            if len(data['data'][experiment_id]['metric']) == 0:
+                result_dict[experiment_id] = []
+                continue
             model = rca_model[experiment_id]
 
             if self.order == 1:

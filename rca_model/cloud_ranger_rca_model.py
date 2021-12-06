@@ -97,6 +97,8 @@ class CloudRangerModel(BaseRCAModel):
         model = dict()
 
         for experiment_id, data in train_data['data'].items():
+            if len(train_data['data'][experiment_id]['metric']) == 0:
+                continue
             header, metric_sample_matrix = ADUtils.get_metric_data(data)
             impact_graph = build_graph_pc(metric_sample_matrix, config['alpha'])
             correlation_matrix = self.build_correlation_matrix(metric_sample_matrix)

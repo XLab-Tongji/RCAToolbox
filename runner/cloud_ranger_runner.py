@@ -100,6 +100,9 @@ class CloudRangerRunner(BaseRunner):
                 result_dict['entry_metric_name'][experiment_id] = first_timestamp_info[0][1]
             else:
                 # TODO: 日志记录下这里存在问题
+                print('No anomaly timestamp detected!: ', experiment_id)
+                raw_data[experiment_id]['metric'] = []
+                continue
                 ...
             filtered_data = ADUtils.ad_metric_filter(ad_model=self.ad_model,
                                                      metric_list=data['metric'],
