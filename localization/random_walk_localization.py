@@ -32,8 +32,9 @@ class RandomWalkLocalization(BaseLocalization):
             model = rca_model[experiment_id]
 
             if self.order == 1:
-                front_end=model['frontend'][experiment_id]
-                result_dict[experiment_id] = first_order_random_walk(rca_model[experiment_id]['pc_graph'],
+                front_end=np.where(model['header'] == (model['frontend'][experiment_id]))[0][0]
+                result_dict[experiment_id] = first_order_random_walk(model['header'],
+                                                                     model['pc_graph'],
                                                                      config['epochs'],
                                                                      front_end,
                                                                      rca_model[experiment_id]['teleportation_prob'],

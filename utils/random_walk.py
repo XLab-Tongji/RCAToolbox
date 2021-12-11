@@ -16,6 +16,7 @@ def change_label(vis_list, data):
 
 
 def first_order_random_walk(
+        header,
         rca_model,
         epochs,
         start_node,
@@ -36,7 +37,7 @@ def first_order_random_walk(
     label = [i for i in range(len(rca_model))]
     n = rca_model.shape[0]
     score = np.zeros([n])
-    current = start_node - 1
+    current = start_node
     for epoch in range(epochs):
         if print_trace:
             print("\n{:2d}".format(current + 1), end="->")
@@ -52,7 +53,13 @@ def first_order_random_walk(
                 current = next_node
     score_list = list(zip(label, score))
     score_list.sort(key=lambda x: x[1], reverse=True)
-    return score_list
+    #将微服务下标换为名称
+    score_list_name = []
+    for pair in score_list:
+        name_score = dict()
+        name_score[header[pair[0]]] = pair[1]
+        score_list_name.append(name_score)
+    return score_list_name
 
 
 def second_order_random_walk(header, edge_trans_prob, epochs, front_end, steps):
