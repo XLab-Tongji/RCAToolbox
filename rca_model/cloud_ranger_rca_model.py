@@ -2,7 +2,7 @@ from base.base_rca_model import BaseRCAModel
 from utils.ad_utils import ADUtils
 from utils.data_helper import normalize
 from utils.build_graph import build_graph_pc
-from openpyxl import Workbook
+import csv
 import os
 import numpy as np
 
@@ -100,23 +100,23 @@ class CloudRangerModel(BaseRCAModel):
             if len(train_data['data'][experiment_id]['metric']) == 0:
                 continue
             header, metric_sample_matrix = ADUtils.get_metric_data(data)
+            entry = train_data['entry_metric_name'][experiment_id]
+            front_end = np.where(header == entry)[0][0]
             impact_graph = build_graph_pc(metric_sample_matrix, config['alpha'])
             correlation_matrix = self.build_correlation_matrix(metric_sample_matrix)
-            prob_matrix = self.build_prob_matrix(impact_graph, correlation_matrix, config['front_end'],
+            prob_matrix = self.build_prob_matrix(impact_graph, correlation_matrix, front_end,
                                                  config['beta'], config['rho'])
             model[experiment_id] = {'G': impact_graph, 'M': prob_matrix, 'header': header,
-                                    'entry': train_data['entry_metric_name'][experiment_id]}
+                                    'front_end': front_end}
 
             # 保存PC算法构建的影响图
             saved_path = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
-                                      'saved/model/cloud_ranger_runner')
-            full_path = os.path.join(saved_path, f"{experiment_id}.xlsx")
-            # if not os.path.exists(full_path):
-            #     wb = Workbook()
-            #     ws = wb.active
-            #     for i in range(len(impact_graph)):
-            #         for j in range(len(impact_graph[i])):
-            #             ws.cell(i + 1, j + 1).value = impact_graph[i][j]
-            #     wb.save(full_path)
+                                      'saved/model/cloud_ranger_runner/sock_shop/impact_graph')
+            full_path = os.path.join(saved_path, f"{experiment_id}.csv")
+
+            if not os.path.exists(full_path):
+                with open(full_path, 'w+') as file:
+                    writer = csv.writer(file)
+                    writer.writerows(impact_graph)
 
         return model

@@ -103,7 +103,6 @@ class CloudRangerRunner(BaseRunner):
                 print('No anomaly timestamp detected!: ', experiment_id)
                 raw_data[experiment_id]['metric'] = []
                 continue
-                ...
             filtered_data = ADUtils.ad_metric_filter(ad_model=self.ad_model,
                                                      metric_list=data['metric'],
                                                      start_timestamp=first_timestamp - forward_interval,
