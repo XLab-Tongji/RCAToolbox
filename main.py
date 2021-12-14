@@ -7,6 +7,11 @@ import gc
 
 # Update config
 def update_config(start_index, batch_size):
+    """
+    Args:
+        start_index: 处理的第一个数据集索引
+        batch_size: 批处理数量
+    """
     base_dir = os.path.dirname(os.path.abspath(__file__))
     path = base_dir + '/data/sock-shop/metric/'
     file_list = []
@@ -29,8 +34,8 @@ def update_config(start_index, batch_size):
 
 # Run
 if __name__ == '__main__':
-    for i in [0, 60, 120, 180, 240]:
-        update_config(i, 60)
+    for start_i in [0, 60, 120, 180, 240]:
+        update_config(start_i, 60)
         print('start:', datetime.datetime.now())
         cloud_ranger_runner = CloudRangerRunner()
         cloud_ranger_runner.run()
@@ -38,5 +43,3 @@ if __name__ == '__main__':
         print('finished:', datetime.datetime.now())
         del cloud_ranger_runner
         gc.collect()
-
-
