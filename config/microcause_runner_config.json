@@ -15,11 +15,11 @@
         "verbose ":false,
         "kws" : {},
         "frontend" : [14],
-        "rho":0.2
+        "rho":0.2,
+        "teleportation_prob":0
     },
     "localization": {
         "epochs": 10,
-        "teleportation_prob":0,
         "frontend" : [14],
         "walk_step":1000,
         "lambda_param":0.5

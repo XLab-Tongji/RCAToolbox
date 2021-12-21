@@ -97,7 +97,7 @@ class MonitorRankRunner(BaseRunner):
                                                      end_timestamp=first_timestamp + backward_interval,
                                                      experiment_id=experiment_id)
             raw_data[experiment_id]['metric'] = filtered_data
-        return raw_data
+        return filtered_data
 
     def evaluation(self):
         pass

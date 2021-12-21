@@ -1,6 +1,8 @@
 import os
 import json
 import sys
+
+from ad_model.n_sigma_ad_model import NSigmaADModel
 from base.base_runner import BaseRunner
 from data_reader.standard_data_reader import StandardDataReader
 from data_loader.standard_data_loader import StandardDataLoader
@@ -65,13 +67,13 @@ class MicroCauseRunner(BaseRunner):
         standard_data_reader = StandardDataReader()
         demo_pre_processor = DemoPreProcessor()
         self.data_loader = StandardDataLoader(standard_data_reader, demo_pre_processor)
-        self.data_loader.load_data(rca_model_name='rca_model_name', dataset='demo')
+        self.data_loader.load_data(rca_model_name='rca_model_name', dataset='sock-shop')
 
         self.data_loader.train_data = self.update_data(self.data_loader.train_data)  # 删除无用数据列
         self.data_loader.valid_data = self.update_data(self.data_loader.valid_data)  # 删除无用数据列
 
         # 选取异常检测模型
-        self.ad_model = SpotADModel()
+        self.ad_model = NSigmaADModel()
 
         # 训练集异常检测与预处理
         self.data_loader.train_data = self.data_preparation(self.data_loader.train_data)
@@ -102,25 +104,56 @@ class MicroCauseRunner(BaseRunner):
         result_dict = test_localization.localize(rca_model=self.rca_model,
                                                  data=self.data_loader.test_data,
                                                  config=self.config_dict['localization'])
-        print(result_dict)
+        base_dir = str(os.path.dirname(os.path.dirname(__file__))) + '/saved/model/microcause_runner/sock_shop_sigma'
+        filename = 'sock_shop_test.json'#TODO 改名字
+        with open(base_dir + filename, 'w') as json_file:
+            json_file.write(json.dumps(result_dict))
         return result_dict
 
     def data_preparation(self, raw_data):
         """
         训练集、验证集、测试集可能需要统一地处理，归类到这里.
         :param raw_data: 训练集、验证集或测试集数据.
-        :return: dict，处理好的数据.(这里是跑完spot后的eta和ab_timepoint)
+        :param ad_model: 异常检测模型.
+        :return: dict，处理好的数据.
         """
         result_dict = {
             'data': dict(),
-            'entry_metric_name': dict(),
-            'spot_model': dict()
+            'entry_metric_name': dict()
         }
+
         for experiment_id, data in raw_data.items():
-            matrix = ADUtils.get_martix(data)
-            result_dict['spot_model'][experiment_id]=(self.ad_model.build_anomaly_model(matrix))
-            min= self.findmin(result_dict['spot_model'][experiment_id]['ab_timepoint'])
-            result_dict['entry_metric_name'][experiment_id]=result_dict['spot_model'][experiment_id]['ab_timepoint'].index(min)
+            forward_interval = self.config_dict['ad_model']['forward_interval']
+            backward_interval = self.config_dict['ad_model']['backward_interval']
+
+            for metric in data['metric']:
+                self.ad_model.build_anomaly_model(metric, experiment_id)
+
+            detect_metric_list = []
+            for metric in data['metric']:
+                if ('service' in metric.name and 'qps' in metric.name) or (
+                        'node' in metric.name and 'System Load' in metric.name):
+                    detect_metric_list.append(metric)
+            first_timestamp_info = ADUtils.ad_metric_find_first_timestamp(ad_model=self.ad_model,
+                                                                          metric_list=detect_metric_list,
+                                                                          experiment_id=experiment_id)
+
+            first_timestamp = ''
+            if len(first_timestamp_info) > 0:
+                first_timestamp = first_timestamp_info[0][0]
+                result_dict['entry_metric_name'][experiment_id] = first_timestamp_info[0][1]
+            else:
+                # TODO: 日志记录下这里存在问题
+                print('No anomaly timestamp detected!: ', experiment_id)
+                raw_data[experiment_id]['metric'] = []
+                continue
+                ...
+            filtered_data = ADUtils.ad_metric_filter(ad_model=self.ad_model,
+                                                     metric_list=data['metric'],
+                                                     start_timestamp=first_timestamp - forward_interval,
+                                                     end_timestamp=first_timestamp + backward_interval,
+                                                     experiment_id=experiment_id)
+            raw_data[experiment_id]['metric'] = filtered_data
         result_dict['data'] = raw_data
         return result_dict
 

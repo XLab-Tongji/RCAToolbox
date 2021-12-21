@@ -13,6 +13,7 @@ class MicroCauseRCAModel(BaseRCAModel):
     """
     MicroCause根因检测模型
     """
+
     @staticmethod
     def get_links(train_data, pcmci, results, alpha_level=0.01):
         """
@@ -182,9 +183,13 @@ class MicroCauseRCAModel(BaseRCAModel):
             matrix = ADUtils.get_martix(data)
             pcmci, pcmci_res = build_graph_pcmci(matrix, config['pc_alpha'], config['verbosity'])
             graph_without_weight = self.get_links(matrix, pcmci, pcmci_res, config['alpha_level'])
-            pc_graph = self.get_Q_matrix_part_corr(matrix, header, graph_without_weight, config['frontend'], config["rho"])
+            pc_graph = self.get_Q_matrix_part_corr(matrix, header, graph_without_weight, config['frontend'],
+                                                   config["rho"])
 
             # TODO:画关系图
-            model[experiment_id] = {'pcmci': pcmci, 'pcici_res': pcmci_res, 'graph_without_weight': graph_without_weight, 'header': header, 'pc_graph': pc_graph,'frontend': train_data['entry_metric_name']}
+            model[experiment_id] = {'pcmci': pcmci, 'pcici_res': pcmci_res,
+                                    'graph_without_weight': graph_without_weight, 'header': header,
+                                    'pc_graph': pc_graph,'entry': train_data['entry_metric_name'][experiment_id],
+                                    'teleportation_prob': 0}
 
         return model

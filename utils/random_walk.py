@@ -16,6 +16,7 @@ def change_label(vis_list, data):
 
 
 def first_order_random_walk(
+        header,
         rca_model,
         epochs,
         start_node,
@@ -50,8 +51,14 @@ def first_order_random_walk(
                     print("{:2d}".format(current + 1), end="->")
                 score[next_node] += 1
                 current = next_node
-    score_list = list(zip(label, score))
+    score_list = list(zip(header, score))
+
+    # 排序 并排除score为0的项
     score_list.sort(key=lambda x: x[1], reverse=True)
+    for index, pair in enumerate(score_list):
+        if pair[1] == 0:
+            score_list = score_list[0:index]
+            break
     return score_list
 
 

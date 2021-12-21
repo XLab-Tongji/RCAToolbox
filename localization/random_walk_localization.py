@@ -30,10 +30,10 @@ class RandomWalkLocalization(BaseLocalization):
                 result_dict[experiment_id] = []
                 continue
             model = rca_model[experiment_id]
-
+            front_end = np.where(model['header'] == (model['entry']))[0][0]
             if self.order == 1:
-                front_end=model['frontend'][experiment_id]
-                result_dict[experiment_id] = first_order_random_walk(rca_model[experiment_id]['pc_graph'],
+                # front_end = model['frontend'][experiment_id]
+                result_dict[experiment_id] = first_order_random_walk(model['header'],rca_model[experiment_id]['pc_graph'],
                                                                      config['epochs'],
                                                                      front_end,
                                                                      rca_model[experiment_id]['teleportation_prob'],
