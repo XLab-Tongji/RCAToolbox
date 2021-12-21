@@ -1,0 +1,74 @@
+{
+  "20210721_003000_SockShopPerformance": [
+    [ "service/shipping/qps(2xx)", 544.0 ],
+    [ "service/carts/latency", 384.0 ],
+    [ "container/queue-master/CPU Usage", 378.0 ],
+    [ "service/payment/qps(2xx)", 367.0 ],
+    [ "container/carts-db/Network Output Packets", 309.0 ],
+    [ "service/payment/latency", 271.0 ],
+    [ "container/catalogue-db/Network Input Bytes", 265.0 ],
+    [ "container/shipping/Network Input Packets", 253.0 ],
+    [ "container/carts/Network Output Packets", 250.0 ],
+    [ "container/carts/Network Input Packets", 248.0 ]
+  ],
+  "20210721_013000_SockShopPerformance": [
+    [ "service/carts/latency", 612.0 ],
+    [ "service/shipping/qps(2xx)", 564.0 ],
+    [ "container/catalogue-db/Network Output Packets", 385.0 ],
+    [ "service/payment/latency", 356.0 ],
+    [ "service/front-end/latency", 354.0 ],
+    [ "container/shipping/Network Input Packets", 331.0 ],
+    [ "container/catalogue-db/CPU Usage", 330.0 ],
+    [ "service/payment/qps(2xx)", 327.0 ],
+    [ "container/queue-master/Network Input Packets", 321.0 ],
+    [ "container/queue-master/Network Output Packets", 292.0 ]
+  ],
+  "20210721_043000_SockShopPerformance": [
+    [ "service/orders/qps(2xx)", 1003.0 ],
+    [ "service/payment/qps(2xx)", 797.0 ],
+    [ "service/carts/latency", 697.0 ],
+    [ "service/front-end/qps(2xx)", 300.0 ],
+    [ "service/orders/latency", 294.0 ],
+    [ "container/rabbitmq/Network Input Packets", 223.0 ],
+    [ "container/payment/Network Input Packets", 220.0 ],
+    [ "node/192.168.199.32:9100/Network Received", 216.0 ],
+    [ "container/queue-master/Network Input Bytes", 210.0 ],
+    [ "node/192.168.199.32:9100/Disk Write", 203.0 ]
+  ],
+  "20210721_063000_SockShopPerformance": [
+    [ "container/catalogue-db/CPU Usage", 768.0 ],
+    [ "service/shipping/qps(2xx)", 535.0 ],
+    [ "service/payment/qps(2xx)", 534.0 ],
+    [ "container/front-end/CPU Usage", 527.0 ],
+    [ "service/carts/latency", 455.0 ],
+    [ "container/catalogue/CPU Usage", 365.0 ],
+    [ "service/carts/qps(2xx)", 351.0 ],
+    [ "service/shipping/latency", 278.0 ],
+    [ "container/orders-db/Network Output Packets", 254.0 ],
+    [ "container/front-end/Network Input Bytes", 245.0 ]
+  ],
+  "20210721_073000_SockShopPerformance": [
+    [ "service/carts/latency", 484.0 ],
+    [ "service/payment/latency", 388.0 ],
+    [ "container/orders/Network Input Packets", 388.0 ],
+    [ "container/orders-db/Network Output Packets", 385.0 ],
+    [ "container/catalogue/Network Input Packets", 368.0 ],
+    [ "service/carts/qps(2xx)", 319.0 ],
+    [ "container/front-end/CPU Usage", 283.0 ],
+    [ "container/catalogue-db/Network Input Packets", 279.0 ],
+    [ "container/payment/CPU Usage", 277.0 ],
+    [ "service/shipping/latency", 272.0 ]
+  ],
+  "20210721_083000_SockShopPerformance": [
+    [ "container/catalogue/CPU Usage", 459.0 ],
+    [ "container/front-end/Network Output Packets", 393.0 ],
+    [ "container/orders/CPU Usage", 384.0 ],
+    [ "container/orders-db/Network Output Packets", 375.0 ],
+    [ "container/queue-master/Network Output Packets", 368.0 ],
+    [ "container/orders/Network Output Packets", 366.0 ],
+    [ "service/payment/qps(2xx)", 349.0 ],
+    [ "service/carts/latency", 328.0 ],
+    [ "service/orders/qps(2xx)", 321.0 ],
+    [ "container/queue-master/CPU Usage", 313.0 ]
+  ]
+}
