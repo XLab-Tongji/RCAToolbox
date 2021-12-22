@@ -31,26 +31,12 @@ class CloudRangerRunner(BaseRunner):
         self.data_loader = StandardDataLoader(standard_data_reader, demo_pre_processor)
         self.data_loader.load_data(rca_model_name='rca_model_name', dataset='sock-shop')
 
-        # 选取异常检测模型
-        # self.ad_model = MetricTestADModel()
-
-
         # 训练集异常检测与预处理
         self.data_loader.train_data = self.data_preparation(self.data_loader.train_data)
 
         # RCA模型搭建（有监督的根据训练数据搭建，无监督的训练集等于测试集，因此搭建的就是测试集的模型）
         cloud_ranger_rca_model = CloudRangerModel()
         self.rca_model = cloud_ranger_rca_model.build(self.data_loader.train_data, self.config_dict['rca_model'])
-
-        # # 验证集异常检测与预处理
-        # self.data_loader.valid_data = self.data_preparation(self.data_loader.valid_data, self.ad_model)
-        # # 在验证集上进行根因定位测试
-        # cloud_ranger_localization = RandomWalkLocalization(order=2)
-        # result_dict = cloud_ranger_localization.localize(rca_model=self.rca_model,
-        #                                                  data=self.data_loader.valid_data,
-        #                                                  config=self.config_dict['localization'])
-        #
-        # print('Results on validation set:', result_dict)
 
     def test(self):
         # 测试集异常检测与预处理
@@ -97,7 +83,6 @@ class CloudRangerRunner(BaseRunner):
                                                                           metric_list=detect_metric_list,
                                                                           experiment_id=experiment_id)
 
-            first_timestamp = ''
             if len(first_timestamp_info) > 0:
                 first_timestamp = first_timestamp_info[0][0]
                 result_dict['entry_metric_name'][experiment_id] = first_timestamp_info[0][1]
