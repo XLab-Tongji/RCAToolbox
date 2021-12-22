@@ -5,7 +5,7 @@ from pingouin import partial_corr
 from matplotlib import pyplot as plt
 
 from base.base_rca_model import BaseRCAModel
-from utils.build_graph_pcmci import build_graph_pcmci
+from utils.build_graph import build_graph_pcmci
 from utils.ad_utils import ADUtils
 
 
