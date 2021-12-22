@@ -60,8 +60,11 @@ class CloudRangerRunner(BaseRunner):
         result_dict = cloud_ranger_localization.localize(rca_model=self.rca_model,
                                                          data=self.data_loader.test_data,
                                                          config=self.config_dict['localization'])
-        base_dir = str(os.path.dirname(os.path.dirname(__file__))) + '/saved/model/cloud_ranger_runner/'
-        filename = 'sock_shop.json'
+        base_dir = str(os.path.dirname(os.path.dirname(__file__))) + '/saved/model/cloud_ranger_runner/alpha_0_05' \
+                                                                     '/score_ranking_list/ '
+        experiment_list = list(result_dict.keys())
+        experiment_list.sort()
+        filename = f'{experiment_list[0]}.json'
         with open(base_dir + filename, 'w') as json_file:
             json_file.write(json.dumps(result_dict))
         return result_dict
@@ -103,7 +106,6 @@ class CloudRangerRunner(BaseRunner):
                 print('No anomaly timestamp detected!: ', experiment_id)
                 raw_data[experiment_id]['metric'] = []
                 continue
-                ...
             filtered_data = ADUtils.ad_metric_filter(ad_model=self.ad_model,
                                                      metric_list=data['metric'],
                                                      start_timestamp=first_timestamp - forward_interval,

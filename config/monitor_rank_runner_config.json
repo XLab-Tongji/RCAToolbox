@@ -11,6 +11,7 @@
     "localization": {
         "rank_paces": 10,
         "walk_step": 1000,
-        "frontend": 5
+        "frontend": 5,
+        "epochs": 10
     }
 }

@@ -1,0 +1,1487 @@
+{
+    "20210718_123000_SockShopPerformance": [
+        [
+            "node/192.168.199.32:9100/Network Transmitted",
+            321.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Received",
+            216.0
+        ],
+        [
+            "node/192.168.199.32:9100/CPU Usage",
+            181.0
+        ],
+        [
+            "container/front-end/MEM Usage",
+            123.0
+        ],
+        [
+            "container/rabbitmq/Network Input Packets",
+            36.0
+        ],
+        [
+            "service/carts/qps(2xx)",
+            22.0
+        ],
+        [
+            "node/192.168.199.35:9100/CPU Usage",
+            21.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Transmitted",
+            21.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Transmitted",
+            19.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Received",
+            16.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Received",
+            15.0
+        ],
+        [
+            "container/orders/Network Output Packets",
+            9.0
+        ]
+    ],
+    "20210718_133000_SockShopPerformance": [
+        [
+            "container/rabbitmq/Network Output Packets",
+            189.0
+        ],
+        [
+            "container/rabbitmq/Network Output Bytes",
+            159.0
+        ],
+        [
+            "container/user-db/Network Input Packets",
+            143.0
+        ],
+        [
+            "container/rabbitmq/Network Input Bytes",
+            136.0
+        ],
+        [
+            "container/rabbitmq/Network Input Packets",
+            103.0
+        ],
+        [
+            "container/user-db/Network Input Bytes",
+            56.0
+        ],
+        [
+            "container/orders/MEM Usage",
+            49.0
+        ],
+        [
+            "container/user-db/Network Output Bytes",
+            49.0
+        ],
+        [
+            "container/user-db/Network Output Packets",
+            42.0
+        ],
+        [
+            "container/payment/MEM Usage",
+            30.0
+        ],
+        [
+            "container/carts-db/MEM Usage",
+            29.0
+        ],
+        [
+            "service/catalogue/qps(2xx)",
+            15.0
+        ]
+    ],
+    "20210718_143000_SockShopPerformance": [
+        [
+            "node/192.168.199.32:9100/Network Transmitted",
+            339.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Received",
+            188.0
+        ],
+        [
+            "node/192.168.199.31:9100/Network Received",
+            168.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Transmitted",
+            94.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Received",
+            52.0
+        ],
+        [
+            "container/rabbitmq/Network Output Packets",
+            34.0
+        ],
+        [
+            "container/user-db/Network Input Packets",
+            33.0
+        ],
+        [
+            "service/user/qps(2xx)",
+            26.0
+        ],
+        [
+            "container/user-db/Network Output Bytes",
+            24.0
+        ],
+        [
+            "container/user-db/Network Output Packets",
+            24.0
+        ],
+        [
+            "container/user-db/Network Input Bytes",
+            18.0
+        ]
+    ],
+    "20210718_153000_SockShopPerformance": [],
+    "20210718_163000_SockShopPerformance": [
+        [
+            "container/catalogue/CPU Usage",
+            219.0
+        ],
+        [
+            "container/catalogue-db/Network Output Packets",
+            182.0
+        ],
+        [
+            "container/catalogue-db/Network Input Bytes",
+            140.0
+        ],
+        [
+            "node/192.168.199.31:9100/Network Transmitted",
+            91.0
+        ],
+        [
+            "container/catalogue-db/Network Input Packets",
+            81.0
+        ],
+        [
+            "node/192.168.199.31:9100/Disk Read",
+            78.0
+        ],
+        [
+            "node/192.168.199.31:9100/Memory Usage",
+            63.0
+        ],
+        [
+            "container/catalogue-db/Network Output Bytes",
+            59.0
+        ],
+        [
+            "container/shipping/MEM Usage",
+            44.0
+        ],
+        [
+            "container/catalogue-db/MEM Usage",
+            39.0
+        ],
+        [
+            "service/front-end/qps(2xx)",
+            3.0
+        ],
+        [
+            "service/orders/qps(2xx)",
+            1.0
+        ]
+    ],
+    "20210718_173000_SockShopPerformance": [
+        [
+            "node/192.168.199.31:9100/Disk Read",
+            319.0
+        ],
+        [
+            "node/192.168.199.31:9100/Memory Usage",
+            270.0
+        ],
+        [
+            "node/192.168.199.31:9100/System Load",
+            168.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Transmitted",
+            53.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Received",
+            36.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Transmitted",
+            33.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Received",
+            33.0
+        ],
+        [
+            "container/rabbitmq/CPU Usage",
+            28.0
+        ],
+        [
+            "container/queue-master/CPU Usage",
+            27.0
+        ],
+        [
+            "container/shipping/MEM Usage",
+            19.0
+        ],
+        [
+            "container/user/Network Output Packets",
+            6.0
+        ],
+        [
+            "node/192.168.199.32:9100/Disk Write",
+            6.0
+        ],
+        [
+            "container/shipping/CPU Usage",
+            2.0
+        ]
+    ],
+    "20210718_183000_SockShopPerformance": [],
+    "20210718_193000_SockShopPerformance": [
+        [
+            "container/payment/Network Input Packets",
+            286.0
+        ],
+        [
+            "container/payment/Network Output Packets",
+            273.0
+        ],
+        [
+            "container/payment/Network Input Bytes",
+            179.0
+        ],
+        [
+            "container/payment/Network Output Bytes",
+            115.0
+        ],
+        [
+            "container/carts-db/Network Output Packets",
+            43.0
+        ],
+        [
+            "container/carts-db/Network Input Packets",
+            37.0
+        ],
+        [
+            "container/orders/MEM Usage",
+            28.0
+        ],
+        [
+            "container/carts-db/Network Input Bytes",
+            20.0
+        ],
+        [
+            "container/carts-db/Network Output Bytes",
+            14.0
+        ],
+        [
+            "service/front-end/qps(2xx)",
+            5.0
+        ]
+    ],
+    "20210718_203000_SockShopPerformance": [
+        [
+            "container/rabbitmq/Network Output Packets",
+            144.0
+        ],
+        [
+            "container/rabbitmq/Network Input Packets",
+            138.0
+        ],
+        [
+            "container/rabbitmq/Network Input Bytes",
+            108.0
+        ],
+        [
+            "container/rabbitmq/Network Output Bytes",
+            65.0
+        ],
+        [
+            "container/carts/Network Output Bytes",
+            61.0
+        ],
+        [
+            "container/carts/Network Input Bytes",
+            48.0
+        ],
+        [
+            "container/catalogue-db/CPU Usage",
+            46.0
+        ],
+        [
+            "node/192.168.199.31:9100/Network Transmitted",
+            44.0
+        ],
+        [
+            "container/carts-db/CPU Usage",
+            43.0
+        ],
+        [
+            "service/front-end/qps(2xx)",
+            36.0
+        ],
+        [
+            "service/orders/latency",
+            32.0
+        ],
+        [
+            "container/catalogue/CPU Usage",
+            31.0
+        ],
+        [
+            "service/shipping/latency",
+            30.0
+        ],
+        [
+            "service/front-end/latency",
+            27.0
+        ],
+        [
+            "container/shipping/MEM Usage",
+            27.0
+        ],
+        [
+            "node/192.168.199.31:9100/Network Received",
+            27.0
+        ],
+        [
+            "node/192.168.199.35:9100/Memory Usage",
+            24.0
+        ],
+        [
+            "service/orders/qps(2xx)",
+            20.0
+        ],
+        [
+            "container/shipping/CPU Usage",
+            17.0
+        ],
+        [
+            "container/catalogue-db/Network Input Packets",
+            13.0
+        ],
+        [
+            "container/orders/MEM Usage",
+            9.0
+        ],
+        [
+            "container/catalogue-db/Network Output Bytes",
+            7.0
+        ],
+        [
+            "service/payment/latency",
+            3.0
+        ]
+    ],
+    "20210718_213000_SockShopPerformance": [
+        [
+            "node/192.168.199.35:9100/Disk Write",
+            334.0
+        ],
+        [
+            "node/192.168.199.35:9100/Disk Read",
+            322.0
+        ],
+        [
+            "node/192.168.199.35:9100/CPU Usage",
+            92.0
+        ],
+        [
+            "node/192.168.199.35:9100/System Load",
+            76.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Transmitted",
+            61.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Received",
+            59.0
+        ],
+        [
+            "node/192.168.199.35:9100/Memory Usage",
+            50.0
+        ],
+        [
+            "container/user/CPU Usage",
+            6.0
+        ]
+    ],
+    "20210718_223000_SockShopPerformance": [
+        [
+            "node/192.168.199.31:9100/Memory Usage",
+            500.0
+        ],
+        [
+            "node/192.168.199.31:9100/System Load",
+            275.0
+        ],
+        [
+            "service/orders/latency",
+            225.0
+        ]
+    ],
+    "20210718_233000_SockShopPerformance": [
+        [
+            "container/rabbitmq/CPU Usage",
+            322.0
+        ],
+        [
+            "node/192.168.199.31:9100/Disk Write",
+            305.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Transmitted",
+            120.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Received",
+            70.0
+        ],
+        [
+            "container/carts/CPU Usage",
+            58.0
+        ],
+        [
+            "container/user-db/CPU Usage",
+            55.0
+        ],
+        [
+            "service/carts/latency",
+            25.0
+        ],
+        [
+            "container/shipping/CPU Usage",
+            10.0
+        ],
+        [
+            "service/carts/qps(2xx)",
+            9.0
+        ],
+        [
+            "container/front-end/CPU Usage",
+            9.0
+        ],
+        [
+            "container/rabbitmq/Network Input Bytes",
+            5.0
+        ],
+        [
+            "container/rabbitmq/Network Output Bytes",
+            4.0
+        ],
+        [
+            "container/rabbitmq/Network Input Packets",
+            4.0
+        ],
+        [
+            "container/rabbitmq/Network Output Packets",
+            4.0
+        ]
+    ],
+    "20210719_003000_SockShopPerformance": [
+        [
+            "container/user-db/MEM Usage",
+            405.0
+        ],
+        [
+            "container/user-db/FS Writes Bytes",
+            154.0
+        ],
+        [
+            "container/user-db/CPU Usage",
+            75.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Transmitted",
+            47.0
+        ],
+        [
+            "container/orders-db/CPU Usage",
+            42.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Received",
+            39.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Transmitted",
+            36.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Transmitted",
+            34.0
+        ],
+        [
+            "container/carts-db/Network Output Packets",
+            26.0
+        ],
+        [
+            "container/orders-db/FS Writes Bytes",
+            26.0
+        ],
+        [
+            "node/192.168.199.32:9100/System Load",
+            22.0
+        ],
+        [
+            "container/orders-db/MEM Usage",
+            18.0
+        ],
+        [
+            "container/shipping/CPU Usage",
+            16.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Received",
+            14.0
+        ],
+        [
+            "service/orders/qps(2xx)",
+            13.0
+        ],
+        [
+            "container/carts-db/FS Writes Bytes",
+            13.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Received",
+            10.0
+        ],
+        [
+            "container/carts-db/CPU Usage",
+            7.0
+        ],
+        [
+            "container/front-end/Network Output Bytes",
+            2.0
+        ],
+        [
+            "service/front-end/latency",
+            1.0
+        ]
+    ],
+    "20210719_013000_SockShopPerformance": [
+        [
+            "node/192.168.199.35:9100/Memory Usage",
+            386.0
+        ],
+        [
+            "node/192.168.199.35:9100/Disk Read",
+            378.0
+        ],
+        [
+            "node/192.168.199.35:9100/CPU Usage",
+            82.0
+        ],
+        [
+            "node/192.168.199.35:9100/System Load",
+            41.0
+        ],
+        [
+            "service/front-end/latency",
+            35.0
+        ],
+        [
+            "service/user/latency",
+            33.0
+        ],
+        [
+            "service/orders/latency",
+            19.0
+        ],
+        [
+            "service/shipping/latency",
+            14.0
+        ],
+        [
+            "container/catalogue/Network Output Packets",
+            11.0
+        ],
+        [
+            "service/payment/latency",
+            1.0
+        ]
+    ],
+    "20210719_023000_SockShopPerformance": [
+        [
+            "service/orders/qps(2xx)",
+            500.0
+        ],
+        [
+            "container/front-end/MEM Usage",
+            500.0
+        ]
+    ],
+    "20210719_033000_SockShopPerformance": [],
+    "20210719_043000_SockShopPerformance": [
+        [
+            "node/192.168.199.35:9100/System Load",
+            382.0
+        ],
+        [
+            "node/192.168.199.33:9100/System Load",
+            360.0
+        ],
+        [
+            "container/user-db/CPU Usage",
+            258.0
+        ]
+    ],
+    "20210719_053000_SockShopPerformance": [
+        [
+            "node/192.168.199.35:9100/Network Transmitted",
+            368.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Received",
+            304.0
+        ],
+        [
+            "container/user/CPU Usage",
+            165.0
+        ],
+        [
+            "node/192.168.199.35:9100/CPU Usage",
+            157.0
+        ],
+        [
+            "container/orders-db/FS Writes Bytes",
+            4.0
+        ],
+        [
+            "node/192.168.199.35:9100/System Load",
+            2.0
+        ]
+    ],
+    "20210719_063000_SockShopPerformance": [
+        [
+            "node/192.168.199.31:9100/Disk Write",
+            476.0
+        ],
+        [
+            "service/orders/qps(2xx)",
+            250.0
+        ],
+        [
+            "service/shipping/latency",
+            230.0
+        ],
+        [
+            "service/catalogue/qps(2xx)",
+            24.0
+        ],
+        [
+            "service/shipping/qps(2xx)",
+            20.0
+        ]
+    ],
+    "20210719_073000_SockShopPerformance": [
+        [
+            "node/192.168.199.31:9100/Disk Read",
+            500.0
+        ],
+        [
+            "service/catalogue/qps(2xx)",
+            251.0
+        ],
+        [
+            "node/192.168.199.31:9100/Disk Write",
+            249.0
+        ]
+    ],
+    "20210719_083000_SockShopPerformance": [
+        [
+            "node/192.168.199.31:9100/Disk Read",
+            134.0
+        ],
+        [
+            "service/user/qps(2xx)",
+            122.0
+        ],
+        [
+            "service/shipping/qps(2xx)",
+            114.0
+        ],
+        [
+            "service/payment/qps(2xx)",
+            110.0
+        ],
+        [
+            "service/orders/qps(2xx)",
+            96.0
+        ],
+        [
+            "service/user/latency",
+            94.0
+        ],
+        [
+            "container/carts/MEM Usage",
+            87.0
+        ],
+        [
+            "node/192.168.199.31:9100/System Load",
+            75.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Transmitted",
+            52.0
+        ],
+        [
+            "service/catalogue/qps(2xx)",
+            43.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Received",
+            37.0
+        ],
+        [
+            "node/192.168.199.32:9100/CPU Usage",
+            29.0
+        ],
+        [
+            "container/user-db/CPU Usage",
+            5.0
+        ],
+        [
+            "node/192.168.199.35:9100/Disk Read",
+            2.0
+        ]
+    ],
+    "20210719_093000_SockShopPerformance": [
+        [
+            "node/192.168.199.31:9100/Disk Write",
+            211.0
+        ],
+        [
+            "node/192.168.199.31:9100/System Load",
+            129.0
+        ],
+        [
+            "container/shipping/Network Output Packets",
+            127.0
+        ],
+        [
+            "service/orders/latency",
+            124.0
+        ],
+        [
+            "container/shipping/Network Input Packets",
+            115.0
+        ],
+        [
+            "node/192.168.199.33:9100/System Load",
+            78.0
+        ],
+        [
+            "container/shipping/Network Input Bytes",
+            72.0
+        ],
+        [
+            "service/catalogue/latency",
+            43.0
+        ],
+        [
+            "node/192.168.199.32:9100/Disk Write",
+            32.0
+        ],
+        [
+            "container/shipping/CPU Usage",
+            29.0
+        ],
+        [
+            "container/user-db/Network Output Bytes",
+            14.0
+        ],
+        [
+            "container/shipping/Network Output Bytes",
+            12.0
+        ],
+        [
+            "container/user-db/CPU Usage",
+            7.0
+        ],
+        [
+            "container/payment/MEM Usage",
+            6.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Transmitted",
+            1.0
+        ]
+    ],
+    "20210719_103000_SockShopPerformance": [
+        [
+            "container/orders-db/Network Input Bytes",
+            199.0
+        ],
+        [
+            "container/orders-db/Network Input Packets",
+            139.0
+        ],
+        [
+            "container/orders-db/Network Output Bytes",
+            127.0
+        ],
+        [
+            "container/orders-db/Network Output Packets",
+            121.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Transmitted",
+            116.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Transmitted",
+            87.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Received",
+            70.0
+        ],
+        [
+            "container/payment/CPU Usage",
+            47.0
+        ],
+        [
+            "container/orders/Network Output Bytes",
+            35.0
+        ],
+        [
+            "container/rabbitmq/MEM Usage",
+            33.0
+        ],
+        [
+            "container/carts-db/MEM Usage",
+            8.0
+        ],
+        [
+            "container/orders/CPU Usage",
+            6.0
+        ],
+        [
+            "container/orders/Network Input Bytes",
+            5.0
+        ],
+        [
+            "service/carts/qps(2xx)",
+            4.0
+        ],
+        [
+            "container/carts-db/FS Writes Bytes",
+            2.0
+        ],
+        [
+            "container/catalogue/CPU Usage",
+            1.0
+        ]
+    ],
+    "20210719_113000_SockShopPerformance": [
+        [
+            "node/192.168.199.35:9100/System Load",
+            500.0
+        ],
+        [
+            "node/192.168.199.35:9100/Disk Read",
+            500.0
+        ]
+    ],
+    "20210719_123000_SockShopPerformance": [
+        [
+            "node/192.168.199.35:9100/Network Received",
+            472.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Transmitted",
+            457.0
+        ],
+        [
+            "node/192.168.199.32:9100/System Load",
+            25.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Received",
+            19.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Transmitted",
+            18.0
+        ],
+        [
+            "node/192.168.199.35:9100/Memory Usage",
+            9.0
+        ]
+    ],
+    "20210719_133000_SockShopPerformance": [
+        [
+            "container/carts-db/Network Output Packets",
+            138.0
+        ],
+        [
+            "container/carts-db/Network Input Packets",
+            122.0
+        ],
+        [
+            "container/carts-db/Network Output Bytes",
+            99.0
+        ],
+        [
+            "container/carts-db/Network Input Bytes",
+            72.0
+        ],
+        [
+            "container/carts/Network Output Packets",
+            61.0
+        ],
+        [
+            "container/carts/CPU Usage",
+            59.0
+        ],
+        [
+            "container/queue-master/Network Output Bytes",
+            35.0
+        ],
+        [
+            "container/carts/MEM Usage",
+            32.0
+        ],
+        [
+            "container/front-end/Network Output Packets",
+            32.0
+        ],
+        [
+            "container/carts/Network Input Packets",
+            31.0
+        ],
+        [
+            "container/front-end/Network Input Packets",
+            31.0
+        ],
+        [
+            "container/front-end/Network Input Bytes",
+            29.0
+        ],
+        [
+            "service/catalogue/latency",
+            26.0
+        ],
+        [
+            "node/192.168.199.33:9100/Disk Read",
+            26.0
+        ],
+        [
+            "container/queue-master/Network Input Packets",
+            24.0
+        ],
+        [
+            "container/queue-master/Network Output Packets",
+            22.0
+        ],
+        [
+            "container/carts/Network Input Bytes",
+            20.0
+        ],
+        [
+            "container/carts-db/CPU Usage",
+            18.0
+        ],
+        [
+            "container/carts-db/MEM Usage",
+            17.0
+        ],
+        [
+            "container/catalogue/MEM Usage",
+            15.0
+        ],
+        [
+            "container/front-end/CPU Usage",
+            15.0
+        ],
+        [
+            "container/carts/Network Output Bytes",
+            13.0
+        ],
+        [
+            "container/queue-master/Network Input Bytes",
+            13.0
+        ],
+        [
+            "service/carts/qps(2xx)",
+            10.0
+        ],
+        [
+            "container/catalogue-db/MEM Usage",
+            9.0
+        ],
+        [
+            "container/carts-db/FS Writes Bytes",
+            7.0
+        ],
+        [
+            "container/payment/MEM Usage",
+            6.0
+        ],
+        [
+            "service/front-end/qps(2xx)",
+            4.0
+        ],
+        [
+            "service/front-end/latency",
+            3.0
+        ],
+        [
+            "container/payment/CPU Usage",
+            3.0
+        ],
+        [
+            "container/orders/CPU Usage",
+            2.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Received",
+            2.0
+        ],
+        [
+            "container/orders/Network Input Bytes",
+            1.0
+        ],
+        [
+            "container/orders/Network Output Bytes",
+            1.0
+        ],
+        [
+            "container/orders/Network Output Packets",
+            1.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Transmitted",
+            1.0
+        ]
+    ],
+    "20210719_143000_SockShopPerformance": [],
+    "20210719_153000_SockShopPerformance": [
+        [
+            "container/payment/Network Output Packets",
+            262.0
+        ],
+        [
+            "container/payment/Network Input Packets",
+            230.0
+        ],
+        [
+            "container/payment/Network Output Bytes",
+            209.0
+        ],
+        [
+            "container/carts-db/FS Writes Bytes",
+            104.0
+        ],
+        [
+            "service/carts/qps(2xx)",
+            99.0
+        ],
+        [
+            "container/payment/Network Input Bytes",
+            96.0
+        ]
+    ],
+    "20210719_163000_SockShopPerformance": [
+        [
+            "node/192.168.199.35:9100/Network Transmitted",
+            328.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Received",
+            244.0
+        ],
+        [
+            "node/192.168.199.35:9100/CPU Usage",
+            136.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Transmitted",
+            98.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Transmitted",
+            48.0
+        ],
+        [
+            "container/rabbitmq/Network Output Packets",
+            31.0
+        ],
+        [
+            "container/rabbitmq/Network Input Packets",
+            27.0
+        ],
+        [
+            "container/rabbitmq/Network Input Bytes",
+            17.0
+        ],
+        [
+            "container/user-db/CPU Usage",
+            14.0
+        ],
+        [
+            "container/orders/CPU Usage",
+            12.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Received",
+            10.0
+        ],
+        [
+            "container/rabbitmq/Network Output Bytes",
+            9.0
+        ],
+        [
+            "node/192.168.199.35:9100/Memory Usage",
+            7.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Received",
+            4.0
+        ],
+        [
+            "service/user/qps(2xx)",
+            3.0
+        ],
+        [
+            "container/front-end/MEM Usage",
+            3.0
+        ],
+        [
+            "container/front-end/Network Input Bytes",
+            3.0
+        ],
+        [
+            "container/user-db/Network Output Packets",
+            3.0
+        ],
+        [
+            "container/user-db/Network Input Bytes",
+            2.0
+        ],
+        [
+            "container/user-db/Network Input Packets",
+            1.0
+        ]
+    ],
+    "20210719_173000_SockShopPerformance": [],
+    "20210719_183000_SockShopPerformance": [],
+    "20210719_193000_SockShopPerformance": [
+        [
+            "node/192.168.199.33:9100/Network Transmitted",
+            238.0
+        ],
+        [
+            "node/192.168.199.31:9100/Network Transmitted",
+            164.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Transmitted",
+            118.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Received",
+            93.0
+        ],
+        [
+            "node/192.168.199.31:9100/Network Received",
+            91.0
+        ],
+        [
+            "node/192.168.199.31:9100/Disk Write",
+            84.0
+        ],
+        [
+            "service/front-end/qps(2xx)",
+            58.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Received",
+            50.0
+        ],
+        [
+            "service/front-end/latency",
+            30.0
+        ],
+        [
+            "service/user/qps(2xx)",
+            22.0
+        ],
+        [
+            "service/orders/latency",
+            20.0
+        ],
+        [
+            "service/user/latency",
+            17.0
+        ],
+        [
+            "service/payment/qps(2xx)",
+            7.0
+        ],
+        [
+            "service/shipping/qps(2xx)",
+            5.0
+        ],
+        [
+            "node/192.168.199.31:9100/System Load",
+            3.0
+        ]
+    ],
+    "20210719_203000_SockShopPerformance": [
+        [
+            "node/192.168.199.33:9100/Network Transmitted",
+            925.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Received",
+            28.0
+        ],
+        [
+            "node/192.168.199.32:9100/Network Transmitted",
+            20.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Received",
+            18.0
+        ],
+        [
+            "node/192.168.199.32:9100/System Load",
+            8.0
+        ],
+        [
+            "node/192.168.199.31:9100/Network Received",
+            1.0
+        ]
+    ],
+    "20210719_213000_SockShopPerformance": [
+        [
+            "container/carts-db/CPU Usage",
+            500.0
+        ],
+        [
+            "container/carts-db/FS Writes Bytes",
+            497.0
+        ],
+        [
+            "service/front-end/qps(2xx)",
+            3.0
+        ]
+    ],
+    "20210719_223000_SockShopPerformance": [
+        [
+            "node/192.168.199.35:9100/Network Transmitted",
+            441.0
+        ],
+        [
+            "node/192.168.199.35:9100/Network Received",
+            230.0
+        ],
+        [
+            "node/192.168.199.35:9100/Disk Write",
+            222.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Received",
+            25.0
+        ],
+        [
+            "node/192.168.199.33:9100/Network Transmitted",
+            22.0
+        ],
+        [
+            "container/user-db/MEM Usage",
+            10.0
+        ],
+        [
+            "container/user-db/FS Writes Bytes",
+            10.0
+        ],
+        [
+            "node/192.168.199.33:9100/Disk Write",
+            10.0
+        ],
+        [
+            "service/catalogue/qps(2xx)",
+            7.0
+        ],
+        [
+            "container/user/MEM Usage",
+            7.0
+        ],
+        [
+            "service/front-end/qps(2xx)",
+            6.0
+        ],
+        [
+            "container/user-db/CPU Usage",
+            5.0
+        ],
+        [
+            "container/user/Network Output Packets",
+            4.0
+        ],
+        [
+            "container/user/Network Output Bytes",
+            1.0
+        ]
+    ],
+    "20210719_233000_SockShopPerformance": [
+        [
+            "node/192.168.199.31:9100/Network Received",
+            500.0
+        ],
+        [
+            "node/192.168.199.31:9100/System Load",
+            259.0
+        ],
+        [
+            "container/front-end/Network Output Bytes",
+            241.0
+        ]
+    ],
+    "20210720_003000_SockShopPerformance": [
+        [
+            "container/rabbitmq/Network Output Packets",
+            349.0
+        ],
+        [
+            "container/rabbitmq/Network Input Packets",
+            285.0
+        ],
+        [
+            "container/rabbitmq/Network Output Bytes",
+            214.0
+        ],
+        [
+            "container/user/CPU Usage",
+            51.0
+        ],
+        [
+            "container/rabbitmq/Network Input Bytes",
+            41.0
+        ],
+        [
+            "service/front-end/qps(2xx)",
+            37.0
+        ],
+        [
+            "service/front-end/latency",
+            23.0
+        ]
+    ],
+    "20210720_013000_SockShopPerformance": [
+        [
+            "node/192.168.199.32:9100/System Load",
+            500.0
+        ],
+        [
+            "node/192.168.199.32:9100/CPU Usage",
+            497.0
+        ],
+        [
+            "service/front-end/qps(2xx)",
+            3.0
+        ]
+    ],
+    "20210720_023000_SockShopPerformance": [
+        [
+            "container/carts-db/FS Writes Bytes",
+            156.0
+        ],
+        [
+            "container/payment/CPU Usage",
+            152.0
+        ],
+        [
+            "container/front-end/Network Output Packets",
+            88.0
+        ],
+        [
+            "container/orders/MEM Usage",
+            61.0
+        ],
+        [
+            "container/front-end/Network Input Packets",
+            54.0
+        ],
+        [
+            "container/queue-master/CPU Usage",
+            52.0
+        ],
+        [
+            "node/192.168.199.31:9100/Memory Usage",
+            52.0
+        ],
+        [
+            "container/front-end/MEM Usage",
+            44.0
+        ],
+        [
+            "node/192.168.199.31:9100/Disk Write",
+            42.0
+        ],
+        [
+            "service/user/qps(2xx)",
+            41.0
+        ],
+        [
+            "service/orders/latency",
+            40.0
+        ],
+        [
+            "container/carts-db/FS Reads Bytes",
+            36.0
+        ],
+        [
+            "container/front-end/Network Output Bytes",
+            36.0
+        ],
+        [
+            "service/user/latency",
+            33.0
+        ],
+        [
+            "service/front-end/qps(2xx)",
+            30.0
+        ],
+        [
+            "container/front-end/FS Reads Bytes",
+            25.0
+        ],
+        [
+            "container/carts-db/CPU Usage",
+            20.0
+        ],
+        [
+            "node/192.168.199.31:9100/Network Received",
+            19.0
+        ],
+        [
+            "container/front-end/CPU Usage",
+            15.0
+        ],
+        [
+            "service/payment/latency",
+            4.0
+        ]
+    ],
+    "20210720_033000_SockShopPerformance": []
+}

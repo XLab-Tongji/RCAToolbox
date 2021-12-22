@@ -68,12 +68,12 @@ class MonitorRankRCAModel(BaseRCAModel):
         :return 如果是每组实验一个模型，返回一个dict，key为experiment_id；如果是训练集整个是一个模型，返回该模型.
         """
         model = dict()
-        for experiment_id in train_data.keys():
-            header, data = self.get_metric_data(train_data[experiment_id])
+        for experiment_id in train_data['data'].keys():
+            header, data = self.get_metric_data(train_data['data'][experiment_id])
             rela = calc_pearson(data, method="numpy", zero_diag=False)  # 皮尔森相关系数计算,返回一个实验对应一个相关系数矩阵
             base_dir = str(os.path.dirname(os.path.dirname(__file__)))
-            if os.path.exists(base_dir+'/saved/model/monitor_rank_runner/'+experiment_id + '.xlsx'):
-             wb = load_workbook(base_dir+'/saved/model/monitor_rank_runner/'+experiment_id+'.xlsx')
+            if os.path.exists(base_dir+'/saved/model/monitor_rank_runner/impact_graph/'+experiment_id + 'alpha:' +str(config['alpha']) + '.xlsx'):
+             wb = load_workbook(base_dir+'/saved/model/monitor_rank_runner/impact_graph/'+experiment_id+ 'alpha:' +str(config['alpha']) + '.xlsx')
              sheets = wb.worksheets
              # 获取第一张sheet
              sheet1 = sheets[0]
@@ -94,12 +94,13 @@ class MonitorRankRCAModel(BaseRCAModel):
                 for i in range(0, len(call_graph)):
                     for j in range(0, len(call_graph[i])):
                         ws.cell(i+1, j+1).value = call_graph[i][j]
-                wb.save(base_dir+'/data/demo/metric/dep_graph/'+experiment_id + '.xlsx')
+                wb.save(base_dir+'/saved/model/monitor_rank_runner/impact_graph/'+experiment_id + 'alpha:' +str(config['alpha']) + '.xlsx')
 
             p, teleportation_prob = self.rela_to_rank(rela, call_graph, config['frontend'])
             out = dict()
             out['header'] = header
             out['pc_graph'] = p
             out['teleportation_prob'] = teleportation_prob
+            out['frontend'] = train_data['entry_metric_name']
             model[experiment_id] = out
         return model
