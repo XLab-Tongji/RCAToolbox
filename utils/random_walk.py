@@ -26,6 +26,7 @@ def first_order_random_walk(
 ):
     """
               根据训练集中的数据构建根因分析模型.
+              :param header:服务名
               :param rca_model: 构建好的根因分析模型,传入的应该是一个类似于矩阵的变量
               :param epochs: 迭代次数
               :param start_node:游走开始节点
@@ -59,7 +60,7 @@ def first_order_random_walk(
         if pair[1] == 0:
             score_list = score_list[0:index]
             break
-    return score_list
+    return score_list[:20]
 
 
 def second_order_random_walk(header, edge_trans_prob, epochs, front_end, steps):

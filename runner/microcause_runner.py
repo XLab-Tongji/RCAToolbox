@@ -35,10 +35,11 @@ class MicroCauseRunner(BaseRunner):
         :param data: 传入的数据（字典）
         :return: 删好的数据
         """
-        count = 0
+
         same_count = 0  # 检查一个service长时间不动的指标
         same_temp = 0
         for _, item in data.items():
+            count = 0
             for i in range(len(item['metric'])):
                 i = i - count
                 temp = item['metric'][i].sample['value'][0]
@@ -104,8 +105,8 @@ class MicroCauseRunner(BaseRunner):
         result_dict = test_localization.localize(rca_model=self.rca_model,
                                                  data=self.data_loader.test_data,
                                                  config=self.config_dict['localization'])
-        base_dir = str(os.path.dirname(os.path.dirname(__file__))) + '/saved/model/microcause_runner/sock_shop_sigma'
-        filename = 'sock_shop_test.json'#TODO 改名字
+        base_dir = str(os.path.dirname(os.path.dirname(__file__))) + '/saved/model/microcause_runner/sock_shop_sigma/'
+        filename = 'sock_shop_20210724_003000.json'#TODO 改名字
         with open(base_dir + filename, 'w') as json_file:
             json_file.write(json.dumps(result_dict))
         return result_dict
@@ -114,7 +115,6 @@ class MicroCauseRunner(BaseRunner):
         """
         训练集、验证集、测试集可能需要统一地处理，归类到这里.
         :param raw_data: 训练集、验证集或测试集数据.
-        :param ad_model: 异常检测模型.
         :return: dict，处理好的数据.
         """
         result_dict = {
@@ -123,10 +123,12 @@ class MicroCauseRunner(BaseRunner):
         }
 
         for experiment_id, data in raw_data.items():
+
             forward_interval = self.config_dict['ad_model']['forward_interval']
             backward_interval = self.config_dict['ad_model']['backward_interval']
 
             for metric in data['metric']:
+
                 self.ad_model.build_anomaly_model(metric, experiment_id)
 
             detect_metric_list = []

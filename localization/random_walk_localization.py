@@ -39,7 +39,7 @@ class RandomWalkLocalization(BaseLocalization):
                                                                      rca_model[experiment_id]['teleportation_prob'],
                                                                      config['walk_step'], print_trace=False, )
             elif self.order == 2:
-                front_end = np.where(model['header'] == (model['entry']))[0][0]
+                # front_end = np.where(model['header'] == (model['entry']))[0][0]
                 result_dict[experiment_id] = second_order_random_walk(model['header'], model['M'], config['epochs'],
                                                                       front_end, config['steps'])
 

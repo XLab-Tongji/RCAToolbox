@@ -1,0 +1,24 @@
+{
+  "20210718_123000_SockShopPerformance": [
+    [ "container/catalogue-db/Network Input Bytes", 1055.0 ],
+    [ "container/payment/Network Input Bytes", 816.0 ],
+    [ "container/payment/Network Output Packets", 759.0 ],
+    [ "service/user/latency", 672.0 ],
+    [ "container/catalogue-db/Network Output Packets", 647.0 ],
+    [ "container/front-end/MEM Usage", 634.0 ],
+    [ "container/catalogue-db/MEM Usage", 577.0 ],
+    [ "container/payment/Network Input Packets", 523.0 ],
+    [ "container/user/Network Input Bytes", 475.0 ],
+    [ "container/carts/CPU Usage", 469.0 ],
+    [ "container/user/Network Output Bytes", 365.0 ],
+    [ "container/payment/Network Output Bytes", 362.0 ],
+    [ "service/payment/latency", 348.0 ],
+    [ "service/catalogue/qps(2xx)", 237.0 ],
+    [ "node/192.168.199.35:9100/System Load", 215.0 ],
+    [ "container/catalogue-db/Network Input Packets", 191.0 ],
+    [ "service/catalogue/latency", 166.0 ],
+    [ "container/catalogue/MEM Usage", 154.0 ],
+    [ "node/192.168.199.35:9100/Disk Write", 147.0 ],
+    [ "container/catalogue/CPU Usage", 146.0 ]
+  ]
+}

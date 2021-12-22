@@ -1,1 +1,134 @@
-{"20210725_003000_SockShopPerformance": [["node/192.168.199.35:9100/Memory Usage", 1083.0], ["container/user/Network Output Bytes", 634.0], ["container/rabbitmq/Network Input Bytes", 602.0], ["container/user/Network Input Bytes", 578.0], ["container/shipping/Network Output Bytes", 507.0], ["container/shipping/Network Input Bytes", 488.0], ["container/queue-master/Network Input Bytes", 470.0], ["container/orders-db/MEM Usage", 435.0], ["container/catalogue/MEM Usage", 339.0], ["service/orders/latency", 322.0]], "20210725_013000_SockShopPerformance": [["node/192.168.199.31:9100/System Load", 952.0], ["service/user/latency", 884.0], ["service/payment/qps(2xx)", 827.0], ["container/queue-master/Network Input Bytes", 713.0], ["service/catalogue/latency", 647.0], ["container/shipping/Network Output Packets", 456.0], ["container/user/MEM Usage", 399.0], ["container/catalogue-db/CPU Usage", 383.0], ["container/shipping/CPU Usage", 380.0], ["service/user/qps(2xx)", 313.0]], "20210725_023000_SockShopPerformance": [["service/catalogue/qps(2xx)", 1809.0], ["service/payment/latency", 1511.0], ["service/catalogue/latency", 1270.0], ["service/carts/qps(2xx)", 1179.0], ["node/192.168.199.33:9100/CPU Usage", 1158.0], ["node/192.168.199.32:9100/System Load", 809.0], ["service/user/qps(2xx)", 596.0], ["node/192.168.199.35:9100/CPU Usage", 551.0], ["node/192.168.199.35:9100/Disk Write", 323.0], ["node/192.168.199.31:9100/Memory Usage", 219.0]], "20210725_033000_SockShopPerformance": [["container/payment/Network Input Packets", 873.0], ["container/payment/CPU Usage", 756.0], ["container/payment/Network Output Bytes", 614.0], ["container/orders-db/FS Writes Bytes", 581.0], ["container/carts-db/Network Output Bytes", 575.0], ["container/orders-db/MEM Usage", 555.0], ["node/192.168.199.32:9100/System Load", 554.0], ["container/payment/Network Input Bytes", 552.0], ["container/payment/Network Output Packets", 533.0], ["container/catalogue/MEM Usage", 525.0]], "20210725_043000_SockShopPerformance": [["container/catalogue-db/Network Output Packets", 1056.0], ["container/catalogue-db/Network Input Packets", 1043.0], ["container/shipping/Network Input Packets", 1032.0], ["container/shipping/Network Output Packets", 1031.0], ["container/shipping/Network Input Bytes", 1017.0], ["container/catalogue-db/CPU Usage", 1006.0], ["container/shipping/CPU Usage", 801.0], ["container/shipping/Network Output Bytes", 732.0], ["container/queue-master/CPU Usage", 706.0], ["container/catalogue-db/Network Output Bytes", 473.0]], "20210725_053000_SockShopPerformance": [["service/user/latency", 1949.0], ["service/payment/latency", 1699.0], ["container/payment/Network Output Bytes", 873.0], ["node/192.168.199.32:9100/CPU Usage", 751.0], ["service/carts/qps(2xx)", 737.0], ["container/payment/Network Input Bytes", 638.0], ["node/192.168.199.32:9100/System Load", 559.0], ["node/192.168.199.32:9100/Memory Usage", 444.0], ["service/catalogue/latency", 424.0], ["container/payment/Network Output Packets", 418.0]], "20210725_063000_SockShopPerformance": [["container/catalogue-db/Network Output Bytes", 625.0], ["container/shipping/Network Input Bytes", 601.0], ["container/shipping/Network Output Packets", 564.0], ["container/catalogue-db/Network Output Packets", 556.0], ["container/catalogue-db/Network Input Packets", 555.0], ["container/catalogue-db/Network Input Bytes", 547.0], ["container/shipping/Network Input Packets", 488.0], ["node/192.168.199.33:9100/System Load", 464.0], ["container/orders-db/CPU Usage", 436.0], ["container/queue-master/Network Output Bytes", 423.0]], "20210725_073000_SockShopPerformance": [["container/orders-db/Network Output Packets", 878.0], ["container/orders-db/Network Input Bytes", 847.0], ["container/catalogue/Network Input Bytes", 841.0], ["container/catalogue/Network Output Bytes", 827.0], ["container/shipping/Network Input Packets", 783.0], ["container/shipping/Network Input Bytes", 752.0], ["container/orders-db/Network Input Packets", 747.0], ["container/shipping/Network Output Bytes", 696.0], ["container/shipping/Network Output Packets", 694.0], ["container/catalogue/Network Output Packets", 637.0]], "20210725_083000_SockShopPerformance": [["container/catalogue-db/Network Output Packets", 456.0], ["container/queue-master/Network Input Bytes", 450.0], ["container/queue-master/Network Output Bytes", 428.0], ["container/catalogue-db/Network Input Packets", 427.0], ["container/queue-master/Network Input Packets", 424.0], ["container/orders-db/Network Output Bytes", 420.0], ["container/catalogue-db/Network Output Bytes", 418.0], ["container/orders-db/Network Input Bytes", 416.0], ["container/catalogue-db/Network Input Bytes", 409.0], ["container/carts-db/MEM Usage", 408.0]], "20210725_093000_SockShopPerformance": [["container/queue-master/Network Output Bytes", 685.0], ["container/shipping/Network Output Packets", 655.0], ["container/shipping/Network Input Bytes", 638.0], ["container/queue-master/Network Input Packets", 619.0], ["container/shipping/Network Input Packets", 605.0], ["container/shipping/Network Output Bytes", 600.0], ["container/shipping/CPU Usage", 576.0], ["node/192.168.199.33:9100/Memory Usage", 551.0], ["container/queue-master/CPU Usage", 463.0], ["container/queue-master/Network Output Packets", 433.0]], "20210725_103000_SockShopPerformance": [["node/192.168.199.33:9100/System Load", 1059.0], ["service/payment/latency", 930.0], ["node/192.168.199.32:9100/System Load", 893.0], ["service/user/latency", 756.0], ["node/192.168.199.33:9100/CPU Usage", 660.0], ["service/payment/qps(2xx)", 593.0], ["service/carts/latency", 510.0], ["container/queue-master/CPU Usage", 503.0], ["service/orders/latency", 481.0], ["service/orders/qps(2xx)", 415.0]]}
+{
+  "20210725_003000_SockShopPerformance": [
+    [ "node/192.168.199.35:9100/Memory Usage", 1083.0 ],
+    [ "container/user/Network Output Bytes", 634.0 ],
+    [ "container/rabbitmq/Network Input Bytes", 602.0 ],
+    [ "container/user/Network Input Bytes", 578.0 ],
+    [ "container/shipping/Network Output Bytes", 507.0 ],
+    [ "container/shipping/Network Input Bytes", 488.0 ],
+    [ "container/queue-master/Network Input Bytes", 470.0 ],
+    [ "container/orders-db/MEM Usage", 435.0 ],
+    [ "container/catalogue/MEM Usage", 339.0 ],
+    [ "service/orders/latency", 322.0 ]
+  ],
+  "20210725_013000_SockShopPerformance": [
+    [ "node/192.168.199.31:9100/System Load", 952.0 ],
+    [ "service/user/latency", 884.0 ],
+    [ "service/payment/qps(2xx)", 827.0 ],
+    [ "container/queue-master/Network Input Bytes", 713.0 ],
+    [ "service/catalogue/latency", 647.0 ],
+    [ "container/shipping/Network Output Packets", 456.0 ],
+    [ "container/user/MEM Usage", 399.0 ],
+    [ "container/catalogue-db/CPU Usage", 383.0 ],
+    [ "container/shipping/CPU Usage", 380.0 ],
+    [ "service/user/qps(2xx)", 313.0 ]
+  ],
+  "20210725_023000_SockShopPerformance": [
+    [ "service/catalogue/qps(2xx)", 1809.0 ],
+    [ "service/payment/latency", 1511.0 ],
+    [ "service/catalogue/latency", 1270.0 ],
+    [ "service/carts/qps(2xx)", 1179.0 ],
+    [ "node/192.168.199.33:9100/CPU Usage", 1158.0 ],
+    [ "node/192.168.199.32:9100/System Load", 809.0 ],
+    [ "service/user/qps(2xx)", 596.0 ],
+    [ "node/192.168.199.35:9100/CPU Usage", 551.0 ],
+    [ "node/192.168.199.35:9100/Disk Write", 323.0 ],
+    [ "node/192.168.199.31:9100/Memory Usage", 219.0 ]
+  ],
+  "20210725_033000_SockShopPerformance": [
+    [ "container/payment/Network Input Packets", 873.0 ],
+    [ "container/payment/CPU Usage", 756.0 ],
+    [ "container/payment/Network Output Bytes", 614.0 ],
+    [ "container/orders-db/FS Writes Bytes", 581.0 ],
+    [ "container/carts-db/Network Output Bytes", 575.0 ],
+    [ "container/orders-db/MEM Usage", 555.0 ],
+    [ "node/192.168.199.32:9100/System Load", 554.0 ],
+    [ "container/payment/Network Input Bytes", 552.0 ],
+    [ "container/payment/Network Output Packets", 533.0 ],
+    [ "container/catalogue/MEM Usage", 525.0 ]
+  ],
+  "20210725_043000_SockShopPerformance": [
+    [ "container/catalogue-db/Network Output Packets", 1056.0 ],
+    [ "container/catalogue-db/Network Input Packets", 1043.0 ],
+    [ "container/shipping/Network Input Packets", 1032.0 ],
+    [ "container/shipping/Network Output Packets", 1031.0 ],
+    [ "container/shipping/Network Input Bytes", 1017.0 ],
+    [ "container/catalogue-db/CPU Usage", 1006.0 ],
+    [ "container/shipping/CPU Usage", 801.0 ],
+    [ "container/shipping/Network Output Bytes", 732.0 ],
+    [ "container/queue-master/CPU Usage", 706.0 ],
+    [ "container/catalogue-db/Network Output Bytes", 473.0 ]
+  ],
+  "20210725_053000_SockShopPerformance": [
+    [ "service/user/latency", 1949.0 ],
+    [ "service/payment/latency", 1699.0 ],
+    [ "container/payment/Network Output Bytes", 873.0 ],
+    [ "node/192.168.199.32:9100/CPU Usage", 751.0 ],
+    [ "service/carts/qps(2xx)", 737.0 ],
+    [ "container/payment/Network Input Bytes", 638.0 ],
+    [ "node/192.168.199.32:9100/System Load", 559.0 ],
+    [ "node/192.168.199.32:9100/Memory Usage", 444.0 ],
+    [ "service/catalogue/latency", 424.0 ],
+    [ "container/payment/Network Output Packets", 418.0 ]
+  ],
+  "20210725_063000_SockShopPerformance": [
+    [ "container/catalogue-db/Network Output Bytes", 625.0 ],
+    [ "container/shipping/Network Input Bytes", 601.0 ],
+    [ "container/shipping/Network Output Packets", 564.0 ],
+    [ "container/catalogue-db/Network Output Packets", 556.0 ],
+    [ "container/catalogue-db/Network Input Packets", 555.0 ],
+    [ "container/catalogue-db/Network Input Bytes", 547.0 ],
+    [ "container/shipping/Network Input Packets", 488.0 ],
+    [ "node/192.168.199.33:9100/System Load", 464.0 ],
+    [ "container/orders-db/CPU Usage", 436.0 ],
+    [ "container/queue-master/Network Output Bytes", 423.0 ]
+  ],
+  "20210725_073000_SockShopPerformance": [
+    [ "container/orders-db/Network Output Packets", 878.0 ],
+    [ "container/orders-db/Network Input Bytes", 847.0 ],
+    [ "container/catalogue/Network Input Bytes", 841.0 ],
+    [ "container/catalogue/Network Output Bytes", 827.0 ],
+    [ "container/shipping/Network Input Packets", 783.0 ],
+    [ "container/shipping/Network Input Bytes", 752.0 ],
+    [ "container/orders-db/Network Input Packets", 747.0 ],
+    [ "container/shipping/Network Output Bytes", 696.0 ],
+    [ "container/shipping/Network Output Packets", 694.0 ],
+    [ "container/catalogue/Network Output Packets", 637.0 ]
+  ],
+  "20210725_083000_SockShopPerformance": [
+    [ "container/catalogue-db/Network Output Packets", 456.0 ],
+    [ "container/queue-master/Network Input Bytes", 450.0 ],
+    [ "container/queue-master/Network Output Bytes", 428.0 ],
+    [ "container/catalogue-db/Network Input Packets", 427.0 ],
+    [ "container/queue-master/Network Input Packets", 424.0 ],
+    [ "container/orders-db/Network Output Bytes", 420.0 ],
+    [ "container/catalogue-db/Network Output Bytes", 418.0 ],
+    [ "container/orders-db/Network Input Bytes", 416.0 ],
+    [ "container/catalogue-db/Network Input Bytes", 409.0 ],
+    [ "container/carts-db/MEM Usage", 408.0 ]
+  ],
+  "20210725_093000_SockShopPerformance": [
+    [ "container/queue-master/Network Output Bytes", 685.0 ],
+    [ "container/shipping/Network Output Packets", 655.0 ],
+    [ "container/shipping/Network Input Bytes", 638.0 ],
+    [ "container/queue-master/Network Input Packets", 619.0 ],
+    [ "container/shipping/Network Input Packets", 605.0 ],
+    [ "container/shipping/Network Output Bytes", 600.0 ],
+    [ "container/shipping/CPU Usage", 576.0 ],
+    [ "node/192.168.199.33:9100/Memory Usage", 551.0 ],
+    [ "container/queue-master/CPU Usage", 463.0 ],
+    [ "container/queue-master/Network Output Packets", 433.0 ]
+  ],
+  "20210725_103000_SockShopPerformance": [
+    [ "node/192.168.199.33:9100/System Load", 1059.0 ],
+    [ "service/payment/latency", 930.0 ],
+    [ "node/192.168.199.32:9100/System Load", 893.0 ],
+    [ "service/user/latency", 756.0 ],
+    [ "node/192.168.199.33:9100/CPU Usage", 660.0 ],
+    [ "service/payment/qps(2xx)", 593.0 ],
+    [ "service/carts/latency", 510.0 ],
+    [ "container/queue-master/CPU Usage", 503.0 ],
+    [ "service/orders/latency", 481.0 ],
+    [ "service/orders/qps(2xx)", 415.0 ]
+  ]
+}

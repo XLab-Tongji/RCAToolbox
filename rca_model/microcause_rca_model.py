@@ -179,6 +179,7 @@ class MicroCauseRCAModel(BaseRCAModel):
         model = dict()
         for experiment_id, data in train_data['data'].items():
             # metric_data = data['metric']
+            print(experiment_id)
             header, metric_sample_matrix = ADUtils.get_metric_data(data)
             matrix = ADUtils.get_martix(data)
             pcmci, pcmci_res = build_graph_pcmci(matrix, config['pc_alpha'], config['verbosity'])
