@@ -72,8 +72,8 @@ class MonitorRankRCAModel(BaseRCAModel):
             header, data = self.get_metric_data(train_data['data'][experiment_id])
             rela = calc_pearson(data, method="numpy", zero_diag=False)  # 皮尔森相关系数计算,返回一个实验对应一个相关系数矩阵
             base_dir = str(os.path.dirname(os.path.dirname(__file__)))
-            if os.path.exists(base_dir+'/saved/model/monitor_rank_runner/impact_graph/'+experiment_id + 'alpha:' +str(config['alpha']) + '.xlsx'):
-             wb = load_workbook(base_dir+'/saved/model/monitor_rank_runner/impact_graph/'+experiment_id+ 'alpha:' +str(config['alpha']) + '.xlsx')
+            if os.path.exists(base_dir+'/saved/model/monitor_rank_runner/impact_graph/'+experiment_id + '_alpha:' +str(config['alpha']) + '.xlsx'):
+             wb = load_workbook(base_dir+'/saved/model/monitor_rank_runner/impact_graph/'+experiment_id+ '_alpha:' +str(config['alpha']) + '.xlsx')
              sheets = wb.worksheets
              # 获取第一张sheet
              sheet1 = sheets[0]
@@ -94,7 +94,7 @@ class MonitorRankRCAModel(BaseRCAModel):
                 for i in range(0, len(call_graph)):
                     for j in range(0, len(call_graph[i])):
                         ws.cell(i+1, j+1).value = call_graph[i][j]
-                wb.save(base_dir+'/saved/model/monitor_rank_runner/impact_graph/'+experiment_id + 'alpha:' +str(config['alpha']) + '.xlsx')
+                wb.save(base_dir+'/saved/model/monitor_rank_runner/impact_graph/'+experiment_id + '_alpha:' +str(config['alpha']) + '.xlsx')
 
             p, teleportation_prob = self.rela_to_rank(rela, call_graph, config['frontend'])
             out = dict()

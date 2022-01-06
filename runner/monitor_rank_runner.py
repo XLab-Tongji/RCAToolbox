@@ -35,6 +35,8 @@ class MonitorRankRunner(BaseRunner):
         self.data_loader.load_data(rca_model_name='rca_model_name', dataset='sock-shop')
 
 
+
+
         # 选取异常检测模型
        # self.ad_model = ADModel()
 
@@ -72,7 +74,7 @@ class MonitorRankRunner(BaseRunner):
         key = ''
         for i in result_dict.keys():
             key = i
-        filename = key +'.json'
+        filename = key +'_alpha:'+str(self.config_dict['rca_model']['alpha'])+'.json'
         with open(base_dir + filename, 'w') as json_file:
             json_file.write(json.dumps(result_dict))
         return result_dict
@@ -121,10 +123,20 @@ class MonitorRankRunner(BaseRunner):
                                                      experiment_id=experiment_id)
             raw_data[experiment_id]['metric'] = filtered_data
         result_dict['data'] = raw_data
+        result_dict = self.delete_zero_len_metric_data(result_dict)
         return result_dict
 
     def evaluation(self):
         pass
+    def delete_zero_len_metric_data(self,data_loader_input_data):
+        m = 0
+        index = []
+        for experiment_id in data_loader_input_data['data'].keys():
+            if len(data_loader_input_data['data'][experiment_id]['metric']) == 0:
+                index.append(m)
+            m = m+1
+        return  data_loader_input_data
+
 
 
 if __name__ == '__main__':
